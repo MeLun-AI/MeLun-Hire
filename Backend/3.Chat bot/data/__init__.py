@@ -1,0 +1,1 @@
+# Package marker for runtime data directories (resumes/, profile_images/).

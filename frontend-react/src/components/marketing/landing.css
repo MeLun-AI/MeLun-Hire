@@ -1,0 +1,542 @@
+/* ==================================================================== */
+/*  MeLun Hire landing site — mock visual system                        */
+/*                                                                      */
+/*  These are POLISHED MOCK visuals used only on the marketing site.     */
+/*  They will be replaced later with real MeLun Hire dashboard /         */
+/*  screenshots and custom hero artwork. The containers are kept         */
+/*  generic (qf-window, qf-glass) so swapping in real media is           */
+/*  straightforward.                                                     */
+/* ==================================================================== */
+
+/* ── Shared typography helpers ───────────────────────────────────── */
+.qf-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #c4b5fd;
+  font-weight: 600;
+}
+
+.qf-grad-text {
+  background: linear-gradient(115deg, #f5f3ff 0%, #a78bfa 42%, #8b5cf6 68%, #6d28d9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.qf-grad-text-coral {
+  background: linear-gradient(115deg, #ffd3c6 0%, #ff8568 45%, #ff6b4a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ── Glass surfaces ──────────────────────────────────────────────── */
+.qf-glass {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* ── Mock product window (browser chrome) ────────────────────────── */
+.qf-window {
+  position: relative;
+  border-radius: 1.1rem;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(21, 23, 35, 0.92), rgba(12, 14, 22, 0.96));
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 45px 100px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(139, 92, 246, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.qf-window-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.qf-dots { display: flex; gap: 0.35rem; }
+.qf-dots i { width: 0.55rem; height: 0.55rem; border-radius: 999px; background: rgba(255, 255, 255, 0.18); }
+
+.qf-window-url {
+  flex: 1;
+  max-width: 17rem;
+  margin: 0 auto;
+  font-size: 0.68rem;
+  color: #9ca3af;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.26rem 0.8rem;
+  border-radius: 999px;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.qf-window-badge {
+  font-size: 0.62rem;
+  color: #a78bfa;
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  background: rgba(139, 92, 246, 0.12);
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* ── Bars / meters ──────────────────────────────────────────────── */
+.qf-bar {
+  height: 0.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.qf-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+}
+.qf-bar.qf-warm > span { background: linear-gradient(90deg, #ff6b4a, #ffa086); }
+
+/* Compact + accent variants used by the capability-tile visuals
+   (same bar system, smaller height + extra tones). */
+.qf-bar.qf-sm { height: 0.3rem; }
+.qf-bar.qf-blue > span { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+.qf-bar.qf-emerald > span { background: linear-gradient(90deg, #059669, #34d399); }
+
+.qf-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #d6cbfb;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(167, 139, 250, 0.22);
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.qf-pill.qf-muted { color: #cbd5e1; background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); }
+.qf-pill.qf-warm { color: #ffd3c6; background: rgba(255, 107, 74, 0.12); border-color: rgba(255, 133, 104, 0.24); }
+
+/* ── Background decorations ────────────────────────────────────── */
+.qf-grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at center, black 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(circle at center, black 20%, transparent 70%);
+}
+
+.qf-particle {
+  position: absolute;
+  border-radius: 999px;
+  background: #a78bfa;
+  filter: blur(1px);
+  animation: qfParticle 9s ease-in-out infinite;
+}
+
+/* ==================================================================== */
+/*  Hero atmosphere — premium cinematic background                       */
+/*                                                                      */
+/*  Used ONLY by the landing <HeroSection>. Every layer here is          */
+/*  decorative, non-interactive and paints BEHIND the hero content       */
+/*  (the content column owns the z-index). Runtime layer order:           */
+/*    base wash → atmospheric light → drifting orbs → grid → glows →     */
+/*    vignette/grain → copy + hero visual                                */
+/*  All motion is transform/opacity only, so it stays on the compositor  */
+/*  and never triggers layout or paint work per frame.                   */
+/* ==================================================================== */
+
+/* Base wash: flat dark fallback behind the full-bleed hero photograph. */
+.qf-hero-base {
+  background: #07080d;
+}
+
+/* Atmospheric lighting: a soft top light plus a horizon glow that sits
+   behind the hero visual, so the right column reads as its own lit stage
+   rather than sitting flat on the page. */
+.qf-hero-light {
+  background:
+    /* soft key light spilling down from above */
+    radial-gradient(66% 44% at 50% -10%, rgba(196, 181, 253, 0.17) 0%, transparent 64%),
+    /* the lit stage behind the hero visual — wide pool + brighter core */
+    radial-gradient(50% 46% at 72% 50%, rgba(124, 58, 237, 0.30) 0%, transparent 74%),
+    radial-gradient(24% 22% at 72% 46%, rgba(167, 139, 250, 0.20) 0%, transparent 70%),
+    /* cool rim on the copy side, so the left column is not dead flat */
+    radial-gradient(42% 40% at 16% 28%, rgba(99, 102, 241, 0.13) 0%, transparent 74%),
+    /* horizon bounce under the hero visual */
+    radial-gradient(84% 34% at 70% 104%, rgba(139, 92, 246, 0.20) 0%, transparent 78%);
+}
+
+/* Drifting ambient orbs — soft, diffuse light rather than flat blobs.
+   Sizes use clamp() so they scale smoothly across all breakpoints. */
+.qf-orb {
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+  filter: blur(110px);
+  will-change: transform;
+}
+
+.qf-orb-1 {
+  top: -24%;
+  right: -14%;
+  width: clamp(300px, 44vw, 620px);
+  height: clamp(300px, 44vw, 620px);
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.34) 0%, transparent 70%);
+  animation: qfOrbDriftA 38s ease-in-out infinite;
+}
+
+.qf-orb-2 {
+  bottom: -30%;
+  left: -12%;
+  width: clamp(280px, 40vw, 560px);
+  height: clamp(280px, 40vw, 560px);
+  background: radial-gradient(circle, rgba(67, 56, 202, 0.28) 0%, transparent 70%);
+  animation: qfOrbDriftB 46s ease-in-out infinite;
+}
+
+.qf-orb-3 {
+  top: 34%;
+  left: 52%;
+  width: clamp(200px, 26vw, 380px);
+  height: clamp(200px, 26vw, 380px);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.22) 0%, transparent 72%);
+  animation: qfOrbDriftA 52s ease-in-out infinite reverse;
+}
+
+/* Very slow light sweep across the hero (composited transform, blurred) */
+.qf-hero-sheen {
+  position: absolute;
+  top: -30%;
+  left: -55%;
+  width: 55%;
+  height: 160%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 0%, rgba(196, 181, 253, 0.06) 50%, transparent 100%);
+  filter: blur(30px);
+  opacity: 0;
+  animation: qfSheenSweep 34s ease-in-out infinite;
+}
+
+/* Vignette: settles the edges and lifts local contrast under the copy.
+   Two layers — a deep corner falloff for cinematic depth, plus a top/bottom
+   settle so the section never bleeds into its neighbours. */
+.qf-hero-vignette {
+  background:
+    radial-gradient(126% 100% at 50% 42%, transparent 34%, rgba(3, 4, 9, 0.58) 76%, rgba(2, 3, 7, 0.88) 100%),
+    linear-gradient(180deg, rgba(4, 5, 10, 0.62) 0%, transparent 24%, transparent 68%, rgba(3, 4, 9, 0.70) 100%);
+}
+
+/* Fine film grain (inline SVG — no asset, no request) so the large dark
+   gradients never band. Kept very faint. */
+.qf-hero-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  opacity: 0.035;
+}
+
+/* Scrim behind the copy only (lg+, where the layout is two columns) so the
+   headline/body keep strong contrast without dimming the hero visual.
+   On smaller screens the copy is centred over an already-dark backdrop. */
+.qf-hero-text-scrim {
+  background: radial-gradient(60% 64% at 16% 50%, rgba(5, 6, 11, 0.70) 0%, rgba(5, 6, 11, 0.34) 54%, transparent 80%);
+}
+
+/* Hairline light seam that separates the copy column from the visual. */
+.qf-hero-seam {
+  width: 1px;
+  background: linear-gradient(180deg, transparent 0%, rgba(167, 139, 250, 0.26) 40%, rgba(139, 92, 246, 0.14) 62%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, black 26%, black 74%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, black 26%, black 74%, transparent 100%);
+}
+
+/* Gentle float for the hero visual. The 3D host itself is never
+   transformed, so the WebGL canvas keeps its own size and pointer mapping. */
+.qf-hero-visual-float {
+  will-change: transform;
+  animation: qfHeroFloat 11s ease-in-out infinite;
+}
+
+/* ── Hero cinematic photo background (FULL-BLEED, natural/sharp) ──
+   The realistic workplace photo covers the ENTIRE hero at full strength —
+   no mask, no fade, no overlay on the image itself. Foreground AI UI cards
+   float above. */
+.qf-hero-photo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.qf-hero-photo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 82% center;
+  opacity: 1;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+/* Fade/tint layers intentionally disabled: image displays naturally/sharply. */
+.qf-hero-photo-fade,
+.qf-hero-photo-tint {
+  display: none;
+}
+/* The 1px center seam would read as a hard vertical boundary over the
+   full-bleed photo, so it stays hidden while the photo is the background. */
+.qf-hero-seam {
+  display: none;
+}
+@media (max-width: 1023px) {
+  .qf-hero-photo-img {
+    object-position: center 30%;
+  }
+  .qf-hero-photo-fade {
+    background:
+      linear-gradient(to right, rgba(7,8,13,0.92) 0%, rgba(7,8,13,0.72) 40%, rgba(7,8,13,0.38) 70%, rgba(7,8,13,0.48) 100%),
+      linear-gradient(to bottom, rgba(7,8,13,0.75) 0%, rgba(7,8,13,0.28) 35%, rgba(7,8,13,0.32) 70%, rgba(5,6,11,0.92) 100%);
+  }
+}
+
+/* ── Buttons ───────────────────────────────────────────────────── */
+.qf-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  border-radius: 0.85rem;
+  padding: 0.85rem 1.4rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.35);
+}
+.qf-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(124, 58, 237, 0.45);
+  filter: brightness(1.06);
+}
+.qf-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 0.85rem;
+  padding: 0.85rem 1.4rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.qf-btn-ghost:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+/* ==================================================================== */
+/*  Hero floating UI tabs (glass, anchored to hero visual)             */
+/*  Face-clear positions matched to reference image.                   */
+/* ==================================================================== */
+.qf-hero-overlays {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+.qf-float-card {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 1rem;
+  padding: 0.85rem 1rem;
+  color: #eef0ff;
+  background: linear-gradient(160deg, rgba(88, 60, 220, 0.38), rgba(30, 27, 75, 0.55));
+  border: 1px solid rgba(167, 139, 250, 0.42);
+  box-shadow:
+    0 18px 50px rgba(10, 6, 40, 0.55),
+    0 0 28px rgba(139, 92, 246, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  animation: qfHeroFloat 6s ease-in-out infinite;
+}
+/* 1 — AI Matching: upper-center/left, clear of faces */
+.qf-fc-match { top: 13%; left: 36%; width: 15.5rem; }
+.qf-fc-match-head { display: flex; gap: 0.6rem; align-items: flex-start; margin-bottom: 0.55rem; }
+.qf-fc-spark { font-size: 1.35rem; line-height: 1; color: #c4b5fd; text-shadow: 0 0 14px rgba(167,139,250,0.9); }
+.qf-fc-match-head strong { display: block; font-size: 0.92rem; font-weight: 800; }
+.qf-fc-match-head small { display: block; font-size: 0.7rem; color: #cfc9f5; }
+.qf-fc-row { display: flex; align-items: center; gap: 0.55rem; margin-top: 0.5rem; }
+.qf-fc-ico {
+  flex: 0 0 2rem; width: 2rem; height: 2rem; border-radius: 999px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 700; color: #fff;
+  background: radial-gradient(circle at 30% 25%, #a78bfa, #6d28d9);
+  border: 1px solid rgba(255,255,255,0.25);
+}
+.qf-fc-meter { flex: 1; min-width: 0; }
+.qf-fc-label { display: flex; justify-content: space-between; font-size: 0.68rem; color: #e6e2ff; margin-bottom: 0.22rem; }
+.qf-fc-bar { display: block; height: 0.38rem; border-radius: 999px; background: rgba(255,255,255,0.14); overflow: hidden; }
+.qf-fc-bar i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg,#6366f1,#a78bfa,#e0e7ff); box-shadow: 0 0 10px rgba(167,139,250,0.8); }
+/* 2 — Priya: upper-right, above heads */
+.qf-fc-priya { top: 12%; right: 5.5%; width: 17rem; animation-delay: -2s; }
+/* 4 — Rahul: lower-right, beside right person */
+.qf-fc-rahul { right: 4.5%; bottom: 12%; width: 17rem; animation-delay: -4s; }
+.qf-fc-top { display: flex; gap: 0.7rem; align-items: flex-start; }
+.qf-fc-avatar {
+  flex: 0 0 3rem; width: 3rem; height: 3.4rem; border-radius: 0.7rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.95rem; color: #fff;
+  background: linear-gradient(160deg,#8b5cf6,#4c1d95);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+.qf-fc-avatar-b { background: linear-gradient(160deg,#60a5fa,#1e3a8a); }
+.qf-fc-id strong { display: block; font-size: 0.88rem; font-weight: 800; }
+.qf-fc-id small { display: block; font-size: 0.7rem; color: #d6d0f7; margin: 0.1rem 0 0.35rem; }
+.qf-fc-matchpill {
+  display: inline-block; font-size: 0.68rem; font-weight: 800; color: #fff;
+  background: linear-gradient(90deg,#8b5cf6,#a78bfa);
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 0.18rem 0.7rem; border-radius: 999px;
+  box-shadow: 0 0 14px rgba(139,92,246,0.7);
+}
+.qf-fc-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.6rem; }
+.qf-fc-tags span {
+  font-size: 0.64rem; color: #e9e6ff;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.16);
+  padding: 0.2rem 0.55rem; border-radius: 999px;
+}
+/* 3 — AI Interview Ready: lower-left open workspace */
+.qf-fc-ready { left: 41%; bottom: 20%; display: flex; align-items: center; gap: 0.65rem; padding: 0.7rem 0.95rem; animation-delay: -1s; }
+.qf-fc-check {
+  flex: 0 0 2rem; width: 2rem; height: 2rem; border-radius: 999px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 800; color: #052e22; background: #34d399;
+  box-shadow: 0 0 16px rgba(52,211,153,0.8);
+}
+.qf-fc-ready-tx strong { display: block; font-size: 0.8rem; font-weight: 800; white-space: nowrap; }
+.qf-fc-ready-tx small { display: block; font-size: 0.68rem; color: #cfc9f5; }
+.qf-fc-wave { display: inline-flex; align-items: flex-end; gap: 2px; height: 1.6rem; margin-left: 0.25rem; }
+.qf-fc-wave i { width: 3px; border-radius: 2px; background: #a78bfa; box-shadow: 0 0 8px rgba(167,139,250,0.9); animation: qfPulse 1.6s ease-in-out infinite; }
+.qf-fc-wave i:nth-child(1) { height: 35%; }
+.qf-fc-wave i:nth-child(2) { height: 70%; }
+.qf-fc-wave i:nth-child(3) { height: 100%; }
+.qf-fc-wave i:nth-child(4) { height: 55%; }
+.qf-fc-wave i:nth-child(5) { height: 85%; }
+.qf-fc-wave i:nth-child(6) { height: 45%; }
+.qf-fc-wave i:nth-child(7) { height: 65%; }
+/* Responsive: keep faces clear on smaller screens */
+@media (max-width: 1100px) {
+  .qf-fc-match { left: 44%; width: 13.5rem; }
+  .qf-fc-priya, .qf-fc-rahul { width: 14.5rem; }
+}
+@media (max-width: 820px) {
+  .qf-fc-match { top: 5%; left: 6%; width: 12.5rem; padding: 0.65rem 0.75rem; }
+  .qf-fc-priya { top: 10%; right: 4%; width: 12.5rem; padding: 0.65rem 0.75rem; }
+  .qf-fc-ready { left: 5%; bottom: 8%; padding: 0.55rem 0.7rem; }
+  .qf-fc-rahul { right: 4%; bottom: 8%; width: 12.5rem; padding: 0.65rem 0.75rem; }
+  .qf-fc-tags span { font-size: 0.58rem; }
+}
+@media (max-width: 560px) {
+  .qf-fc-match { display: none; }
+  .qf-fc-priya { top: 4%; left: 4%; right: auto; width: 11rem; }
+  .qf-fc-ready { display: none; }
+  .qf-fc-rahul { bottom: 6%; right: 4%; width: 11rem; }
+}
+/* ==================================================================== */
+@keyframes qfFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+@keyframes qfFloatB {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(-6deg); }
+}
+@keyframes qfSpin {
+  to { transform: rotate(360deg); }
+}
+@keyframes qfParticle {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  15% { opacity: 0.9; }
+  85% { opacity: 0.5; }
+  100% { transform: translateY(-140px) translateX(18px); opacity: 0; }
+}
+@keyframes qfPulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+@keyframes qfShimmer {
+  0% { background-position: -220% 0; }
+  100% { background-position: 220% 0; }
+}
+@keyframes qfGridMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 44px; }
+}
+
+/* ── Hero atmosphere motion (transform/opacity only) ────────────── */
+@keyframes qfOrbDriftA {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.82; }
+  50%      { transform: translate3d(-3.5%, 4%, 0) scale(1.10); opacity: 1; }
+}
+@keyframes qfOrbDriftB {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
+  50%      { transform: translate3d(4%, -3.5%, 0) scale(1.08); opacity: 0.8; }
+}
+@keyframes qfSheenSweep {
+  0%, 14% { transform: rotate(13deg) translate3d(0, 0, 0); opacity: 0; }
+  24%     { opacity: 0.9; }
+  64%     { transform: rotate(13deg) translate3d(230%, 0, 0); opacity: 0; }
+  100%    { transform: rotate(13deg) translate3d(230%, 0, 0); opacity: 0; }
+}
+@keyframes qfHeroFloat {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -9px, 0); }
+}
+
+/* Prefers-reduced-motion: kill decorative animation */
+@media (prefers-reduced-motion: reduce) {
+  .qf-particle,
+  .qf-orb-1,
+  .qf-orb-2,
+  .qf-orb-3,
+  .qf-hero-sheen,
+  .qf-hero-visual-float {
+    animation: none !important;
+  }
+  /* the sheen is only meaningful while sweeping */
+  .qf-hero-sheen {
+    opacity: 0 !important;
+  }
+}
+
+/* Small screens: hold the large blurred orbs still. The hero also runs its
+   lighter 3D path there, so we avoid animating several big blur layers on
+   mobile — the layered gradients, glows, grid, vignette and grain still
+   carry the atmosphere, and motion stays in the (cheap) sheen + hero float. */
+@media (max-width: 640px) {
+  .qf-orb-1,
+  .qf-orb-2,
+  .qf-orb-3 {
+    animation: none;
+  }
+}

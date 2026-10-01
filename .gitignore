@@ -1,0 +1,137 @@
+# =========================
+# Virtual environments
+# =========================
+venv/
+.venv/
+env/
+ENV/
+testenv/
+
+# =========================
+# Python cache
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# =========================
+# Node / frontend dependencies and build output
+# =========================
+node_modules/
+.vite/
+*.tsbuildinfo
+npm-debug.log*
+
+# =========================
+# Environment files / secrets
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# VS Code local workspace files
+# Keep shared settings.json if you intentionally use it
+# =========================
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# SQLite databases
+# =========================
+*.db
+*.sqlite
+*.sqlite3
+
+# =========================
+# Logs and temporary files
+# =========================
+*.log
+logs/
+tmp/
+temp/
+
+# =========================
+# OS junk
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Python build files
+# =========================
+build/
+dist/
+*.egg-info/
+
+# =========================
+# Test and coverage files
+# =========================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# =========================
+# Flutter / Dart generated files
+# =========================
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# =========================
+# Large/generated AI outputs
+# Uncomment these only if they are regenerated
+# =========================
+# Backend/3.Chat bot/outputs/
+# Backend/3.Chat bot/models/
+
+# =========================
+# Runtime applicant/interview data and uploaded documents
+# =========================
+Backend/3.Chat bot/data/interviews/
+Backend/3.Chat bot/data/resumes/
+Backend/3.Chat bot/data/profile_images/
+Backend/3.Chat bot/data/company_logos/
+
+# Demo recordings
+Backend/3.Chat bot/demos/
+
+# Generated ML model artifacts
+Backend/1.DS-Step/*.pkl
+
+# =========================
+# Sensitive interview/security artifacts (never commit)
+# =========================
+TEST INTERVIEW CODES.txt
+*INTERVIEW*CODES*.txt
+SWETHA_SURESH_RESUME.pdf
+*_RESUME.pdf
+*_tmp_*.py
+_tmp_*.py
+
+# =========================
+# Database / SQLite backups and journals
+# =========================
+*.bak
+*.bak-*
+*.db.bak*
+*.sqlite.bak*
+*-shm
+*-wal
+Backend/3.Chat bot/database/*.bak*
+Backend/3.Chat bot/database/*.shm
+Backend/3.Chat bot/database/*.wal
+
+# Local databases (explicit repo paths)
+Backend/3.Chat bot/*.db
+Backend/3.Chat bot/database/*.db
+

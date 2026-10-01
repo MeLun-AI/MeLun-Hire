@@ -1,0 +1,27 @@
+# MeLun Hire — FastAPI backend dependencies (Backend/3.Chat bot)
+# Install with: pip install -r requirements.txt
+
+# Web framework / ASGI server
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Configuration
+python-dotenv
+pydantic
+pydantic-settings
+
+# LLM + outbound HTTP calls
+openai
+requests
+
+# Authentication / password hashing (utils/security.py)
+passlib
+argon2-cffi
+
+# Resume parsing (services/resume_parser.py)
+pdfplumber
+python-docx
+
+# Date arithmetic (main.py)
+python-dateutil

@@ -1,0 +1,464 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-navy-950 text-white font-sans antialiased;
+    background-color: #06070c;
+    background-image:
+      radial-gradient(1200px 600px at 15% -10%, rgba(139, 92, 246, 0.09), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(255, 133, 104, 0.05), transparent 55%),
+      linear-gradient(180deg, #080a12 0%, #06070c 40%, #05060a 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color-scheme: dark;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.22);
+    background-clip: content-box;
+  }
+  ::selection {
+    background: rgba(139, 92, 246, 0.35);
+    color: #fff;
+  }
+}
+
+@layer components {
+  /* MeLun brand logo — see components/layout/MeLunLogo.tsx.
+     `variant="auto"` swaps between the supplied light- and dark-background
+     PNG files so the logo always keeps correct contrast: the dark-surface
+     file is the default and the light-surface file is used when the app
+     runs the light theme (`.theme-light`). */
+  .melun-logo-on-dark {
+    display: block;
+  }
+
+  .melun-logo-on-light {
+    display: none;
+  }
+
+  .theme-light .melun-logo-on-dark {
+    display: none;
+  }
+
+  .theme-light .melun-logo-on-light {
+    display: block;
+  }
+}
+
+/* ================================================================== */
+/*  Micro-interaction CSS animations                                   */
+/*  Used as a complement to Framer Motion for elements that are        */
+/*  not practical to wrap with <motion.> (e.g. table rows).            */
+/* ================================================================== */
+
+/* ── Card hover: soft shadow + border transition ─────────────────── */
+@layer utilities {
+  .card-hover {
+    @apply transition-all duration-150 ease-out;
+  }
+
+  .card-hover:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  /* ── Table row hover ──────────────────────────────────────────── */
+  .table-row-hover {
+    @apply transition-colors duration-100 ease-out;
+  }
+
+  .table-row-hover:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+
+  /* ── Button lift (subtle) ─────────────────────────────────────── */
+  .btn-lift {
+    @apply transition-all duration-150 ease-out;
+  }
+
+  .btn-lift:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .btn-lift:active {
+    transform: translateY(0);
+  }
+
+  /* ── Focus ring (form inputs) ─────────────────────────────────── */
+  .input-focus {
+    @apply transition-all duration-150 ease-out;
+  }
+
+  .input-focus:focus {
+    border-color: rgba(37, 99, 235, 0.5);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+
+  /* ── Invalid / validation shake ───────────────────────────────── */
+  .input-error {
+    border-color: rgba(239, 68, 68, 0.5);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+  }
+
+  /* ── Dropdown / popover slide ─────────────────────────────────── */
+  .dropdown-enter {
+    animation: dropdownIn 0.15s ease-out forwards;
+  }
+
+  .dropdown-exit {
+    animation: dropdownOut 0.1s ease-in forwards;
+  }
+
+  @keyframes dropdownIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes dropdownOut {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-4px) scale(0.98);
+    }
+  }
+
+  /* ── Toast notification slide ─────────────────────────────────── */
+  .toast-enter {
+    animation: toastIn 0.25s ease-out forwards;
+  }
+
+  .toast-exit {
+    animation: toastOut 0.2s ease-in forwards;
+  }
+
+  @keyframes toastIn {
+    from {
+      opacity: 0;
+      transform: translateX(100%) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+  }
+
+  @keyframes toastOut {
+    from {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(100%) scale(0.96);
+    }
+  }
+
+  /* ── Skeleton pulse (Tailwind animate-pulse is sufficient,      */
+  /*     but we add a slightly smoother easing)                      */
+  .skeleton-pulse {
+    animation: skeletonPulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes skeletonPulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+
+
+
+  /* ── Modal / dialog entrance ────────────────────────────────────── */
+  .modal-backdrop-in {
+    animation: modalBackdropIn 0.2s ease-out forwards;
+  }
+
+  .modal-panel-in {
+    animation: modalPanelIn 0.24s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes modalBackdropIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes modalPanelIn {
+    from {
+      opacity: 0;
+      transform: translateY(14px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* ── Talent Arena / Career Quest balanced game layouts ───────────── */
+  /*  Long picker/evidence lists scroll inside their own card instead  */
+  /*  of stretching the whole page column and leaving blank space.     */
+  .arena-scroll-list {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    min-height: 0;
+  }
+
+  @media (max-width: 1023px) {
+    .arena-scroll-list {
+      max-height: none !important;
+    }
+  }
+
+/* ================================================================== */
+/*  Light theme — scoped to the Applicant UI via the `.theme-light`    */
+/*  class on the applicant layout root. The default (dark navy) theme  */
+/*  is untouched and HR pages are never affected.                     */
+/* ================================================================== */
+
+body:has(.theme-light) {
+  background-color: #eef2f7;
+  color: #0f172a;
+}
+
+.theme-light {
+  color-scheme: light;
+}
+
+/* ---- Surfaces ---- */
+.theme-light .bg-navy-950 { background-color: #eef2f7; }
+.theme-light .bg-navy-900 { background-color: #e2e8f0; }
+.theme-light .bg-navy-900\/95 { background-color: rgba(226, 232, 240, 0.95); }
+.theme-light .bg-navy-800 { background-color: #ffffff; }
+.theme-light .bg-navy-700 { background-color: #e2e8f0; }
+.theme-light .bg-white\/5 { background-color: rgba(255, 255, 255, 0.65); }
+.theme-light .bg-white\/10 { background-color: rgba(15, 23, 42, 0.09); }
+.theme-light .bg-white\/\[0\.07\] { background-color: rgba(15, 23, 42, 0.06); }
+.theme-light .bg-white\/\[0\.04\] { background-color: rgba(15, 23, 42, 0.04); }
+.theme-light .bg-white\/\[0\.03\] { background-color: rgba(15, 23, 42, 0.03); }
+
+/* ---- Borders ---- */
+.theme-light .border-white\/10 { border-color: rgba(15, 23, 42, 0.12); }
+.theme-light .border-white\/5 { border-color: rgba(15, 23, 42, 0.08); }
+
+/* ---- Text ---- */
+.theme-light .text-white { color: #0f172a; }
+.theme-light .text-gray-200 { color: #1e293b; }
+.theme-light .text-gray-300 { color: #334155; }
+.theme-light .text-gray-400 { color: #475569; }
+.theme-light .text-gray-500 { color: #64748b; }
+.theme-light .text-gray-600 { color: #64748b; }
+
+/* ---- Accent text (kept readable on light backgrounds) ---- */
+.theme-light .text-primary-light { color: #1d4ed8; }
+.theme-light .text-blue-400 { color: #2563eb; }
+.theme-light .text-green-400 { color: #16a34a; }
+.theme-light .text-emerald-400 { color: #059669; }
+.theme-light .text-yellow-400 { color: #d97706; }
+.theme-light .text-red-400 { color: #dc2626; }
+.theme-light .text-red-300 { color: #dc2626; }
+.theme-light .text-purple-400 { color: #9333ea; }
+.theme-light .text-coral-400 { color: #d94f30; }
+
+/* ---- Hover states ---- */
+.theme-light .hover\:bg-white\/5:hover { background-color: rgba(15, 23, 42, 0.05); }
+.theme-light .hover\:bg-white\/10:hover { background-color: rgba(15, 23, 42, 0.08); }
+.theme-light .hover\:bg-white\/\[0\.07\]:hover { background-color: rgba(15, 23, 42, 0.07); }
+.theme-light .hover\:bg-white\/\[0\.04\]:hover { background-color: rgba(15, 23, 42, 0.04); }
+.theme-light .hover\:bg-white\/\[0\.03\]:hover { background-color: rgba(15, 23, 42, 0.03); }
+.theme-light .hover\:text-white:hover { color: #0f172a; }
+.theme-light .hover\:shadow-black\/20:hover {
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
+
+/* ---- Gradient hero ---- */
+.theme-light .from-primary\/10 { --tw-gradient-from: rgba(37, 99, 235, 0.08); }
+.theme-light .via-navy-800\/50 { --tw-gradient-via: rgba(226, 232, 240, 0.9); }
+.theme-light .to-navy-900 { --tw-gradient-to: #eef2f7; }
+
+/* ---- Existing utility hover rules (defined in @layer utilities) ---- */
+.theme-light .card-hover:hover {
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+  border-color: rgba(15, 23, 42, 0.2);
+}
+.theme-light .table-row-hover:hover {
+  background-color: rgba(15, 23, 42, 0.03);
+}
+
+  /* ── Stagger fade-in for lists (fallback, prefer Framer Motion) ─ */
+  .stagger-fade-in > * {
+    opacity: 0;
+    animation: staggerFadeIn 0.3s ease-out forwards;
+  }
+
+  .stagger-fade-in > *:nth-child(1) { animation-delay: 0.02s; }
+  .stagger-fade-in > *:nth-child(2) { animation-delay: 0.06s; }
+  .stagger-fade-in > *:nth-child(3) { animation-delay: 0.10s; }
+  .stagger-fade-in > *:nth-child(4) { animation-delay: 0.14s; }
+  .stagger-fade-in > *:nth-child(5) { animation-delay: 0.18s; }
+  .stagger-fade-in > *:nth-child(6) { animation-delay: 0.22s; }
+  .stagger-fade-in > *:nth-child(7) { animation-delay: 0.26s; }
+  .stagger-fade-in > *:nth-child(8) { animation-delay: 0.30s; }
+
+  @keyframes staggerFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+/* ==================================================================== */
+/*  Applicant accent color — scoped to the applicant root via the       */
+/*  data-accent attribute (set in ApplicantLayout). HR pages never set  */
+/*  this attribute, so the HR visual system is never affected.          */
+/* ==================================================================== */
+
+[data-accent='orange'] .bg-primary { background-color: #f97316; }
+[data-accent='orange'] .bg-primary-hover { background-color: #ea580c; }
+[data-accent='orange'] .hover\:bg-primary-hover:hover { background-color: #ea580c; }
+[data-accent='orange'] .text-primary { color: #f97316; }
+[data-accent='orange'] .text-primary-light { color: #fb923c; }
+[data-accent='orange'] .border-primary { border-color: #f97316; }
+[data-accent='orange'] .bg-primary\/5 { background-color: rgba(249, 115, 22, 0.05); }
+[data-accent='orange'] .bg-primary\/10 { background-color: rgba(249, 115, 22, 0.1); }
+[data-accent='orange'] .bg-primary\/15 { background-color: rgba(249, 115, 22, 0.15); }
+[data-accent='orange'] .bg-primary\/20 { background-color: rgba(249, 115, 22, 0.2); }
+[data-accent='orange'] .bg-primary\/30 { background-color: rgba(249, 115, 22, 0.3); }
+[data-accent='orange'] .border-primary\/20 { border-color: rgba(249, 115, 22, 0.2); }
+[data-accent='orange'] .border-primary\/25 { border-color: rgba(249, 115, 22, 0.25); }
+[data-accent='orange'] .border-primary\/30 { border-color: rgba(249, 115, 22, 0.3); }
+[data-accent='orange'] .border-primary\/50 { border-color: rgba(249, 115, 22, 0.5); }
+[data-accent='orange'] .from-primary { --tw-gradient-from: #f97316; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+[data-accent='orange'] .from-primary\/10 { --tw-gradient-from: rgb(249 115 22 / 0.10); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+[data-accent='orange'] .to-primary-light { --tw-gradient-to: #fb923c; }
+[data-accent='orange'] .via-primary\/50 { --tw-gradient-via: rgb(249 115 22 / 0.5); }
+[data-accent='orange'] .to-primary { --tw-gradient-to: #f97316; }
+
+[data-accent='blue'] .bg-primary { background-color: #3b82f6; }
+[data-accent='blue'] .bg-primary-hover { background-color: #2563eb; }
+[data-accent='blue'] .hover\:bg-primary-hover:hover { background-color: #2563eb; }
+[data-accent='blue'] .text-primary { color: #3b82f6; }
+[data-accent='blue'] .text-primary-light { color: #60a5fa; }
+[data-accent='blue'] .border-primary { border-color: #3b82f6; }
+[data-accent='blue'] .bg-primary\/5 { background-color: rgba(59, 130, 246, 0.05); }
+[data-accent='blue'] .bg-primary\/10 { background-color: rgba(59, 130, 246, 0.1); }
+[data-accent='blue'] .bg-primary\/15 { background-color: rgba(59, 130, 246, 0.15); }
+[data-accent='blue'] .bg-primary\/20 { background-color: rgba(59, 130, 246, 0.2); }
+[data-accent='blue'] .bg-primary\/30 { background-color: rgba(59, 130, 246, 0.3); }
+[data-accent='blue'] .border-primary\/20 { border-color: rgba(59, 130, 246, 0.2); }
+[data-accent='blue'] .border-primary\/25 { border-color: rgba(59, 130, 246, 0.25); }
+[data-accent='blue'] .border-primary\/30 { border-color: rgba(59, 130, 246, 0.3); }
+[data-accent='blue'] .border-primary\/50 { border-color: rgba(59, 130, 246, 0.5); }
+[data-accent='blue'] .from-primary { --tw-gradient-from: #3b82f6; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+[data-accent='blue'] .from-primary\/10 { --tw-gradient-from: rgb(59 130 246 / 0.10); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+[data-accent='blue'] .to-primary-light { --tw-gradient-to: #60a5fa; }
+[data-accent='blue'] .via-primary\/50 { --tw-gradient-via: rgb(59 130 246 / 0.5); }
+[data-accent='blue'] .to-primary { --tw-gradient-to: #3b82f6; }
+[data-accent='green'] .bg-primary { background-color: #22c55e; }
+[data-accent='green'] .bg-primary-hover { background-color: #16a34a; }
+[data-accent='green'] .hover\:bg-primary-hover:hover { background-color: #16a34a; }
+[data-accent='green'] .text-primary { color: #22c55e; }
+[data-accent='green'] .text-primary-light { color: #4ade80; }
+[data-accent='green'] .border-primary { border-color: #22c55e; }
+[data-accent='green'] .bg-primary\/5 { background-color: rgba(34, 197, 94, 0.05); }
+[data-accent='green'] .bg-primary\/10 { background-color: rgba(34, 197, 94, 0.1); }
+[data-accent='green'] .bg-primary\/15 { background-color: rgba(34, 197, 94, 0.15); }
+[data-accent='green'] .bg-primary\/20 { background-color: rgba(34, 197, 94, 0.2); }
+[data-accent='green'] .bg-primary\/30 { background-color: rgba(34, 197, 94, 0.3); }
+[data-accent='green'] .border-primary\/20 { border-color: rgba(34, 197, 94, 0.2); }
+[data-accent='green'] .border-primary\/25 { border-color: rgba(34, 197, 94, 0.25); }
+[data-accent='green'] .border-primary\/30 { border-color: rgba(34, 197, 94, 0.3); }
+[data-accent='green'] .border-primary\/50 { border-color: rgba(34, 197, 94, 0.5); }
+[data-accent='green'] .from-primary { --tw-gradient-from: #22c55e; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+[data-accent='green'] .from-primary\/10 { --tw-gradient-from: rgb(34 197 94 / 0.10); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+[data-accent='green'] .to-primary-light { --tw-gradient-to: #4ade80; }
+[data-accent='green'] .via-primary\/50 { --tw-gradient-via: rgb(34 197 94 / 0.5); }
+[data-accent='green'] .to-primary { --tw-gradient-to: #22c55e; }
+
+[data-accent='purple'] .bg-primary { background-color: #8b5cf6; }
+[data-accent='purple'] .bg-primary-hover { background-color: #7c3aed; }
+[data-accent='purple'] .hover\:bg-primary-hover:hover { background-color: #7c3aed; }
+[data-accent='purple'] .text-primary { color: #8b5cf6; }
+[data-accent='purple'] .text-primary-light { color: #a78bfa; }
+[data-accent='purple'] .border-primary { border-color: #8b5cf6; }
+[data-accent='purple'] .bg-primary\/5 { background-color: rgba(139, 92, 246, 0.05); }
+[data-accent='purple'] .bg-primary\/10 { background-color: rgba(139, 92, 246, 0.1); }
+[data-accent='purple'] .bg-primary\/15 { background-color: rgba(139, 92, 246, 0.15); }
+[data-accent='purple'] .bg-primary\/20 { background-color: rgba(139, 92, 246, 0.2); }
+[data-accent='purple'] .bg-primary\/30 { background-color: rgba(139, 92, 246, 0.3); }
+[data-accent='purple'] .border-primary\/20 { border-color: rgba(139, 92, 246, 0.2); }
+[data-accent='purple'] .border-primary\/25 { border-color: rgba(139, 92, 246, 0.25); }
+[data-accent='purple'] .border-primary\/30 { border-color: rgba(139, 92, 246, 0.3); }
+[data-accent='purple'] .border-primary\/50 { border-color: rgba(139, 92, 246, 0.5); }
+[data-accent='purple'] .from-primary { --tw-gradient-from: #8b5cf6; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+[data-accent='purple'] .from-primary\/10 { --tw-gradient-from: rgb(139 92 246 / 0.10); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+[data-accent='purple'] .to-primary-light { --tw-gradient-to: #a78bfa; }
+[data-accent='purple'] .via-primary\/50 { --tw-gradient-via: rgb(139 92 246 / 0.5); }
+[data-accent='purple'] .to-primary { --tw-gradient-to: #8b5cf6; }
+/* ==================================================================== */
+/*  Applicant font-size — scoped to the applicant root via the           */
+/*  data-font-size attribute (set in ApplicantLayout). HR pages never    */
+/*  set this, so the HR UI is unaffected.                                */
+/* ==================================================================== */
+
+[data-font-size='small'] .text-2xl { font-size: 1.3125rem; }
+[data-font-size='small'] .text-xl { font-size: 1.125rem; }
+[data-font-size='small'] .text-lg { font-size: 1rem; }
+[data-font-size='small'] .text-base { font-size: 0.875rem; }
+[data-font-size='small'] .text-sm { font-size: 0.8125rem; }
+[data-font-size='small'] .text-xs { font-size: 0.6875rem; }
+[data-font-size='small'] .text-\[10px\] { font-size: 0.625rem; }
+[data-font-size='small'] .text-\[11px\] { font-size: 0.6875rem; }
+[data-font-size='small'] .text-\[13px\] { font-size: 0.8125rem; }
+[data-font-size='small'] .text-\[14px\] { font-size: 0.875rem; }
+
+[data-font-size='large'] .text-2xl { font-size: 1.75rem; }
+[data-font-size='large'] .text-xl { font-size: 1.5rem; }
+[data-font-size='large'] .text-lg { font-size: 1.375rem; }
+[data-font-size='large'] .text-base { font-size: 1.1875rem; }
+[data-font-size='large'] .text-sm { font-size: 1.0625rem; }
+[data-font-size='large'] .text-xs { font-size: 0.8125rem; }
+[data-font-size='large'] .text-\[10px\] { font-size: 0.75rem; }
+[data-font-size='large'] .text-\[11px\] { font-size: 0.8125rem; }
+[data-font-size='large'] .text-\[13px\] { font-size: 1rem; }
+[data-font-size='large'] .text-\[14px\] { font-size: 1.125rem; }
