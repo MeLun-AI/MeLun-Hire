@@ -22,10 +22,7 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/applicant", tags=["Applicant Settings"])
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-DB_PATH = os.path.join(BASE_DIR, "database", "database.db")
-RESUME_DIR = os.path.join(BASE_DIR, "data", "resumes")
-PROFILE_IMG_DIR = os.path.join(BASE_DIR, "data", "profile_images")
+from config.paths import DB_PATH, PROFILE_IMG_DIR, RESUME_DIR, resolve_stored_path
 
 DELETE_CONFIRMATION = "DELETE"
 
@@ -192,7 +189,7 @@ def delete_own_account(
     try:
         if profile_pic:
             base = os.path.abspath(PROFILE_IMG_DIR)
-            target = os.path.abspath(os.path.join(BASE_DIR, str(profile_pic)))
+            target = os.path.abspath(resolve_stored_path(str(profile_pic)))
             if target.startswith(base + os.sep) and os.path.isfile(target):
                 os.remove(target)
     except Exception:

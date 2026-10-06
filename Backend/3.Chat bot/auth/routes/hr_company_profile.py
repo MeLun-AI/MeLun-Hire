@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Body, Depends, HTTPException
 import logging
 import sqlite3
-import os
 
 from auth.sessions import current_hr_id, get_current_hr, require_hr_ownership
 
@@ -10,8 +9,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/hr", tags=["HR Company Profile"])
 
 
-BASE_DIR = os.path.dirname(__file__)
-DB_PATH = os.path.join(BASE_DIR, "..", "..", "database", "database.db")
+from config.paths import DB_PATH
 
 # =================================================
 # FETCH COMPANY PROFILE

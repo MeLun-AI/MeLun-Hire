@@ -1,5 +1,4 @@
 from datetime import datetime
-import os
 import sqlite3
 from typing import Optional
 
@@ -16,8 +15,7 @@ from auth.authorization import applicant_owns_notification, hr_owns_notification
 router = APIRouter(prefix="/hr", tags=["HR Notifications"])
 applicant_notifications_router = APIRouter(prefix="/applicant", tags=["Applicant Notifications"])
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-DB_PATH = os.path.join(BASE_DIR, "database", "database.db")
+from config.paths import DB_PATH
 
 
 def get_conn():

@@ -1,0 +1,71 @@
+# MeLun Hire — Render Blueprint (optional)
+#
+# Applying this file (Render Dashboard -> New -> Blueprint) creates the backend
+# web service described below. It is optional: everything here can also be set
+# up by hand in the Render dashboard (see DEPLOYMENT.md).
+#
+# Notes for this project:
+#  * The current data layer is SQLite, so a Render Postgres instance is NOT
+#    created. The database file lives on a persistent disk (see `disk` below).
+#  * A paid instance plan is required to attach a persistent disk. On a plan
+#    without a disk, the database and uploaded files are lost on every deploy.
+#  * Values marked `sync: false` are secrets you enter in the dashboard; they are
+#    never stored in this file.
+#  * SESSION_COOKIE_SAMESITE=none + SESSION_COOKIE_SECURE=true is required when
+#    the Vercel frontend and the Render backend are on different sites (the
+#    default *.vercel.app / *.onrender.com domains). If you serve both from
+#    subdomains of one registrable domain (e.g. app.example.com + api.example.com)
+#    they are same-site; switch SESSION_COOKIE_SAMESITE back to `lax`.
+
+services:
+  - type: web
+    name: melun-hire-api
+    runtime: python
+    plan: starter
+    rootDir: Backend/3.Chat bot
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn main:app --host 0.0.0.0 --port $PORT --workers 2
+    healthCheckPath: /health
+    autoDeploy: false
+    disk:
+      name: melun-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      # SQLite file + uploads on the persistent disk above.
+      - key: DATABASE_URL
+        value: sqlite:////var/data/database.db
+      - key: STORAGE_DIR
+        value: /var/data
+      # Secrets / origins — set these in the dashboard.
+      - key: SECRET_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: SMTP_SERVER
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USERNAME
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      - key: SENDER_EMAIL
+        sync: false
+      - key: SENDER_PASSWORD
+        sync: false
+      # Cross-site cookie handling (see file header).
+      - key: SESSION_COOKIE_SECURE
+        value: "true"
+      - key: SESSION_COOKIE_SAMESITE
+        value: none

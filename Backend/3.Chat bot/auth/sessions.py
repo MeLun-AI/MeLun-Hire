@@ -27,8 +27,7 @@ from fastapi import HTTPException, Request, Response, status
 
 logger = logging.getLogger(__name__)
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB_PATH = os.path.join(BASE_DIR, "database", "database.db")
+from config.paths import DB_PATH
 
 # NOTE: the cookie name is intentionally unchanged — it is a technical
 # identifier shared with existing sessions and the SESSION_COOKIE_NAME env var,

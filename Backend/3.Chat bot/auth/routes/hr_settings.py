@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, Body, Depends
 from datetime import datetime
 import sqlite3
-import os
 
 from auth.sessions import (
     current_hr_id,
@@ -12,8 +11,7 @@ from auth.sessions import (
 
 router = APIRouter(prefix="/hr", tags=["HR Settings"])
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-DB_PATH = os.path.join(BASE_DIR, "database", "database.db")
+from config.paths import DB_PATH
 
 
 def get_conn():

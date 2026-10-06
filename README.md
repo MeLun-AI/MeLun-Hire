@@ -84,7 +84,7 @@ React + TypeScript + Vite           FastAPI application (main.py)
 
 **Request flow**
 
-1. The React app calls the API through one helper layer (`src/services/api.ts`) that always sends the session cookie. The base URL comes from `VITE_API_BASE_URL` and falls back to `http://localhost:8000` for local development.
+1. The React app calls the API through one helper layer (`src/services/api.ts`) that always sends the session cookie. The base URL comes from `VITE_API_URL` (or `VITE_API_BASE_URL`) and falls back to `http://localhost:8000` for local development.
 2. FastAPI resolves the request against the routers registered in `main.py`. Authentication uses a server-side session table plus an HttpOnly cookie (`auth/sessions.py`); resource ownership is verified separately (`auth/authorization.py`), so one HR can never read another company's applicants.
 3. Business logic lives in `routes/` and `services/`. Everything AI-related goes through `ai_engine/llm_client.py`, the only module that talks to the LLM provider.
 4. Persistence is plain SQL through the `sqlite3` driver (`database/db.py`, WAL mode). Uploaded resumes and profile images are written to `data/` and referenced by path in the database.
@@ -256,14 +256,16 @@ Notes on how these are actually used:
 - **CORS / frontend origin** — `ALLOWED_ORIGINS` (comma-separated) is the CORS allow-list. If it is empty, the backend falls back to local development origins; `FRONTEND_URL` is additionally appended to the list. The auth flow uses cookies, so `*` is deliberately filtered out and `allow_credentials` is enabled.
 - **Sessions** — `APP_ENV=production` makes session cookies `Secure` unless `SESSION_COOKIE_SECURE` overrides it; `SESSION_TTL_HOURS` and `SESSION_COOKIE_NAME` control session lifetime and cookie naming.
 - **LLM** — `OPENAI_API_KEY` is required for AI question generation and answer analysis; `LLM_MODEL`, `LLM_TEMPERATURE` and `LLM_MAX_TOKENS` tune the calls made in `ai_engine/llm_client.py`.
-- **Database** — the SQLite file location is resolved in code (`database/db.py`, `main.py`), not through environment variables, so there is no database variable to set for the current implementation.
+- **Database** — the SQLite file location is resolved from `DATABASE_URL` (or `DB_PATH`) by `config/paths.py`, defaulting to `database/database.db`. Only SQLite is supported by the current data layer; a `postgres://` / `postgresql://` URL is rejected at startup with a clear error. See `DEPLOYMENT.md` for the production database decision.
+- **File storage** — uploaded resumes and profile images live under `STORAGE_DIR` (default `<backend>/data`, resolved by `config/paths.py`). Point it at a persistent volume in production.
 - **Interview and reporting values** — `INTERVIEW_*`, `OUTPUT_FORMAT`, `SAVE_REPORTS` and `REPORTS_DIR` are exposed through `config/settings.py`. The same file also defines `RESUME_WEIGHT`, `TECHNICAL_WEIGHT`, `BEHAVIORAL_WEIGHT`, `GD_WEIGHT`, `GD_DURATION`, `GD_MIN_PARTICIPANTS`, `RESUME_PASS_THRESHOLD` and `FINAL_PASS_THRESHOLD`; these are configuration values only — check the consuming code before assuming they change scoring behaviour.
 
 Frontend variable:
 
 ```ini
 # frontend-react/.env.local
-VITE_API_BASE_URL=<your-api-base-url>   # production builds must point at the deployed API
+VITE_API_URL=<your-api-base-url>        # production builds must point at the deployed API
+VITE_APP_URL=<your-frontend-origin>     # optional: base URL used to build shared interview links
 ```
 
 ---
@@ -311,6 +313,7 @@ Conventions worth knowing:
 - Authentication is cookie-based. Clients must send credentials with every request; the browser frontend does this globally in `src/services/api.ts`.
 - Authorization is enforced per resource on the server: HR endpoints check that the requesting HR owns the job/application, and applicant endpoints check that the applicant owns the application.
 - Error responses use standard FastAPI `{"detail": ...}` shapes; unexpected server errors return a generic message rather than internal exception text.
+- A `GET /health` liveness endpoint (no authentication, no database access) is provided for platform health checks and uptime monitoring.
 - The backend does not host the frontend build — `dist/` is served by a separate static host or CDN.
 
 ---
@@ -345,6 +348,10 @@ There is currently no automated test configuration in `package.json` for the fro
 
 ## Production Deployment
 
+For an end-to-end, deployment-specific walkthrough (Render + Vercel + the database
+decision + persistent storage + environment variables + troubleshooting), see
+**[DEPLOYMENT.md](DEPLOYMENT.md)**. The notes below are the short version.
+
 ### Frontend
 
 ```bash
@@ -353,7 +360,7 @@ npm ci                                  # reproducible install from package-lock
 
 # point the build at the deployed API (build-time variable)
 # frontend-react/.env.production
-# VITE_API_BASE_URL=<your-api-base-url>
+# VITE_API_URL=<your-api-base-url>
 
 npm run build                           # outputs static assets to dist/
 ```

@@ -1,13 +1,25 @@
 /**
- * API base URL. Configurable per environment via VITE_API_BASE_URL
- * (e.g. a .env.local or build-time env var); falls back to local dev.
+ * API base URL. Configurable per environment via VITE_API_URL (preferred) or
+ * VITE_API_BASE_URL (kept for backwards compatibility); falls back to local dev.
  *
  * NOTE: the fallback uses `localhost` (not 127.0.0.1) so the browser treats it
- * as the same site as the Vite dev server. The session is carried by an
- * HttpOnly SameSite=Lax cookie, which is only sent for same-site requests.
+ * as the same site as the Vite dev server — the session is carried by an
+ * HttpOnly cookie sent only on same-site requests unless SameSite=None is set.
  */
 export const API_BASE =
-  (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://localhost:8000';
+  (import.meta.env.VITE_API_URL as string | undefined) ||
+  (import.meta.env.VITE_API_BASE_URL as string | undefined) ||
+  'http://localhost:8000';
+
+/**
+ * Public base URL of the deployed frontend, used to build links that are shared
+ * with applicants (for example interview access links). Falling back to
+ * `window.location.origin` means local development and production both produce
+ * valid links without hardcoding a host.
+ */
+export const APP_BASE_URL =
+  (import.meta.env.VITE_APP_URL as string | undefined)?.replace(/\/$/, '') ||
+  (typeof window !== 'undefined' ? window.location.origin : '');
 
 /** All API calls must send the session cookie. */
 const CREDENTIALS: RequestCredentials = 'include';

@@ -29,7 +29,6 @@ Design notes (smallest production-safe scope):
 from __future__ import annotations
 
 import logging
-import os
 import sqlite3
 from datetime import datetime
 
@@ -40,8 +39,7 @@ from services.interview_scoring import (
 
 logger = logging.getLogger(__name__)
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-DB_PATH = os.path.join(BASE_DIR, "database", "database.db")
+from config.paths import DB_PATH
 
 DECISION_SELECTED = "selected"
 DECISION_REJECTED = "rejected"

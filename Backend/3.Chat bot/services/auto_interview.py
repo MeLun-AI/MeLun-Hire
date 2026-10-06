@@ -23,15 +23,13 @@ row), matching how the platform already persists HR-level preferences.
 from __future__ import annotations
 
 import logging
-import os
 import random
 import sqlite3
 from datetime import datetime, timedelta
 
 logger = logging.getLogger(__name__)
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-DB_PATH = os.path.join(BASE_DIR, "database", "database.db")
+from config.paths import DB_PATH
 
 # How long a generated interview code stays valid (unchanged - same value the
 # existing manual endpoint used).

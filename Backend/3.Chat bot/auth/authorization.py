@@ -11,14 +11,12 @@ Client-supplied ids are inputs to these lookups only - they are never trusted
 as proof of authorization. When a lookup fails we raise 404 (not 403) so the
 existence of other tenants' records is not disclosed.
 """
-import os
 import sqlite3
 from typing import Optional
 
 from fastapi import HTTPException
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB_PATH = os.path.join(BASE_DIR, "database", "database.db")
+from config.paths import DB_PATH
 
 
 def get_conn() -> sqlite3.Connection:

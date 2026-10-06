@@ -9,9 +9,7 @@ from auth.sessions import get_current_hr, require_hr_ownership
 
 router = APIRouter(prefix="/hr", tags=["HR Applicants"])
 
-BASE_DIR = os.path.dirname(__file__)
-DB_PATH = os.path.join(BASE_DIR, "..", "..", "database", "database.db")
-RESUME_DIR = os.path.join(BASE_DIR, "..", "..", "data", "resumes")
+from config.paths import DB_PATH, RESUME_DIR
 
 
 def _resume_filename(applicant_id: str):

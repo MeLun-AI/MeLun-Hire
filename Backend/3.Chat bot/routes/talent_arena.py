@@ -18,7 +18,6 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import sqlite3
-import os
 import json
 import re
 from datetime import datetime
@@ -36,8 +35,7 @@ router = APIRouter(prefix="/talent-arena", tags=["Talent Arena"])
 # ------------------------------------------------------------------
 # DB helpers (identical pattern to routes/career_quest.py)
 # ------------------------------------------------------------------
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB_PATH = os.path.join(BASE_DIR, "database", "database.db")
+from config.paths import DB_PATH
 
 
 def get_conn():

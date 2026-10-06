@@ -30,8 +30,7 @@ import re
 import sqlite3
 from datetime import datetime
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-RESUME_DIR = os.path.join(BASE_DIR, "data", "resumes")
+from config.paths import RESUME_DIR
 
 # ---------------------------------------------------------------------------
 # Lexicons

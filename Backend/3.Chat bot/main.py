@@ -188,6 +188,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# =================================================
+# HEALTH CHECK
+# =================================================
+# Lightweight liveness probe — no database access, no auth — so the platform
+# (Render health checks, uptime monitors, load balancers) can verify the API is
+# up without touching sensitive data.
+@app.get("/health", tags=["Health"])
+def health_check():
+    return {"status": "ok"}
+
 
 # =================================================
 # REGISTER ROUTERS
@@ -298,9 +308,8 @@ def cleanup_abandoned(sess: dict = Depends(get_current_hr)):
 # =================================================
 # DATABASE
 # =================================================
-BASE_DIR = os.path.dirname(__file__)
-DB_PATH = os.path.join(BASE_DIR, "database", "database.db")
-PROFILE_IMG_DIR = os.path.join(BASE_DIR, "data", "profile_images")
+from config.paths import DB_PATH, PROFILE_IMG_DIR, resolve_stored_path
+
 ALLOWED_PIC_EXTS = {".png", ".jpg", ".jpeg", ".webp", ".gif"}
 
 # =================================================
@@ -570,7 +579,7 @@ def get_profile_pic(applicant_id: str, sess: dict = Depends(get_current_applican
 
     candidates = []
     if row and row[0]:
-        candidates.append(os.path.join(BASE_DIR, str(row[0]).replace("\\", os.sep)))
+        candidates.append(resolve_stored_path(str(row[0])))
     candidates.append(os.path.join(PROFILE_IMG_DIR, f"{safe_id}.png"))
 
     for candidate in candidates:

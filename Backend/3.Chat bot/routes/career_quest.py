@@ -26,7 +26,6 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import sqlite3
-import os
 import json
 import uuid
 import re
@@ -39,8 +38,7 @@ router = APIRouter(prefix="/career-quest", tags=["Career Quest"])
 # ------------------------------------------------------------------
 # DB helpers (match existing routers)
 # ------------------------------------------------------------------
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB_PATH = os.path.join(BASE_DIR, "database", "database.db")
+from config.paths import DB_PATH
 
 
 def get_conn():

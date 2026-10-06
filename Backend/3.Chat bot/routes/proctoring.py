@@ -22,11 +22,9 @@ from pydantic import BaseModel
 from auth.sessions import get_current_applicant
 from auth.authorization import require_applicant_owns_application
 
-import os
 import sqlite3
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-DB_PATH = os.path.join(BASE_DIR, "database", "database.db")
+from config.paths import DB_PATH
 
 router = APIRouter(prefix="/interview", tags=["Proctoring"])
 

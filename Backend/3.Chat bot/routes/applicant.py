@@ -16,9 +16,7 @@ router = APIRouter(prefix="/applicant", tags=["Applicant"])
 # ------------------------------------------------------------------
 # Paths (resolved from the backend root so they work regardless of CWD)
 # ------------------------------------------------------------------
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-UPLOAD_DIR = os.path.join(BASE_DIR, "data", "resumes")
-DB_PATH = os.path.join(BASE_DIR, "database", "database.db")
+from config.paths import DB_PATH, RESUME_DIR as UPLOAD_DIR
 ALLOWED_EXTENSIONS = {".pdf", ".docx"}
 
 # Upload hardening: hard size cap + content sniffing so a renamed file cannot

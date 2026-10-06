@@ -31,8 +31,7 @@ router = APIRouter(prefix="/applicant", tags=["Applicant Auth"])
 # =================================================
 # DATABASE
 # =================================================
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-DB_PATH = os.path.join(BASE_DIR, "database", "database.db")
+from config.paths import DB_PATH
 
 def get_conn():
     conn = sqlite3.connect(

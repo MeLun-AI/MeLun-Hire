@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getJson, postJson, API_BASE } from '../services/api';
+import { getJson, postJson, API_BASE, APP_BASE_URL } from '../services/api';
 import HrLayout from '../components/hr/HrLayout';
 import { bulkUpdateApplicationStatus, finalDecisionLabel } from '../services/applications';
 import {
@@ -1293,7 +1293,7 @@ export default function HrApplicants() {
     }
   };
 
-  const buildInterviewLink = (code: string) => `http://localhost:5173/interview/${code}`;
+  const buildInterviewLink = (code: string) => `${APP_BASE_URL}/interview/${code}`;
 
   /* ---------- Guard ---------- */
   if (!session) return null;
