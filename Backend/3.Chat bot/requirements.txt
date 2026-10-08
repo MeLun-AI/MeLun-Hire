@@ -10,6 +10,8 @@ python-multipart
 python-dotenv
 pydantic
 pydantic-settings
+# Required by pydantic.EmailStr (auth/routes/applicant_auth.py, routes/password_reset.py)
+email-validator
 
 # LLM + outbound HTTP calls
 openai
