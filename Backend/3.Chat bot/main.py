@@ -43,14 +43,9 @@ def _public_error(detail: str = "Request failed. Please try again.") -> HTTPExce
 
 # ---- Password-reset codes: stored hashed, time limited, single use ----
 RESET_CODE_TTL_MINUTES = 15
-_RESET_TABLE_SQL = """
-    CREATE TABLE IF NOT EXISTS password_reset (
-        email TEXT,
-        otp TEXT,
-        role TEXT,
-        created_at TEXT
-    )
-"""
+# The DDL is owned by database/schema.py so the reset routes and the startup
+# bootstrap can never drift apart.
+from database.schema import PASSWORD_RESET_OTP_TABLE_SQL as _RESET_TABLE_SQL
 _PASSWORD_POLICY = re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$")
 
 
@@ -200,6 +195,19 @@ def health_check():
 
 
 # =================================================
+# DATABASE SCHEMA BOOTSTRAP
+# Runs before the routers are imported: several of them apply additive schema
+# checks while they are being imported. On a fresh deployment the volume is
+# empty (database.db is git-ignored), so the tables they rely on have to exist
+# first — otherwise requests fail with "no such table: ...". Idempotent,
+# additive and safe to repeat on every startup.
+# =================================================
+from database.init_db import init_database
+
+init_database()
+
+
+# =================================================
 # REGISTER ROUTERS
 # =================================================
 from auth.routes.hr_auth import router as hr_auth_router
@@ -315,6 +323,12 @@ ALLOWED_PIC_EXTS = {".png", ".jpg", ".jpeg", ".webp", ".gif"}
 # =================================================
 # ENSURE REQUIRED COLUMNS EXIST (SAFE MIGRATION)
 # =================================================
+# The bootstrap above already creates every column below on a fresh database.
+# These guards are kept because they also serve databases created by an older
+# build (a local copy or an already provisioned volume), they own the one-time
+# `code_email_sent` backfill, and they are called directly by the API smoke
+# tests. All of them are PRAGMA-guarded and additive, so repeating them on every
+# startup is a no-op.
 def ensure_application_columns():
     conn = sqlite3.connect(DB_PATH, isolation_level=None)
     cur = conn.cursor()

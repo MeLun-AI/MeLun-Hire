@@ -16,6 +16,7 @@ router = APIRouter(prefix="/hr", tags=["HR Notifications"])
 applicant_notifications_router = APIRouter(prefix="/applicant", tags=["Applicant Notifications"])
 
 from config.paths import DB_PATH
+from database.schema import ensure_columns
 
 
 def get_conn():
@@ -26,36 +27,62 @@ def get_conn():
     return conn
 
 
+# One table serves HR users and applicants (hr_id / applicant_id).
+_NOTIFICATIONS_TABLE_SQL = """
+    CREATE TABLE IF NOT EXISTS notifications (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        hr_id INTEGER NULL,
+        applicant_id TEXT NULL,
+        application_id INTEGER NULL,
+        type TEXT NOT NULL,
+        title TEXT NOT NULL,
+        message TEXT NOT NULL,
+        is_read INTEGER DEFAULT 0,
+        created_at TEXT NOT NULL
+    )
+"""
+
+_NOTIFICATIONS_HR_INDEX_SQL = (
+    "CREATE INDEX IF NOT EXISTS idx_notifications_hr_created "
+    "ON notifications(hr_id, created_at DESC)"
+)
+_NOTIFICATIONS_APPLICANT_INDEX_SQL = (
+    "CREATE INDEX IF NOT EXISTS idx_notifications_applicant_created "
+    "ON notifications(applicant_id, created_at DESC)"
+)
+
+# Columns added after the table was first released. SQLite cannot add a column
+# to an existing table through CREATE TABLE, so they are applied one by one.
+_NOTIFICATIONS_COLUMNS = {
+    "hr_id": "INTEGER NULL",
+    "applicant_id": "TEXT NULL",
+    "application_id": "INTEGER NULL",
+    "is_read": "INTEGER DEFAULT 0",
+}
+
+
 def ensure_notifications_table():
-    """One table serves HR users and applicants (hr_id / applicant_id)."""
+    """Make sure the shared notifications table exists with the current layout.
+
+    One table serves HR users and applicants (``hr_id`` / ``applicant_id``). A
+    fresh database simply gets the table; a database created before applicant
+    notifications existed gets the missing columns added in place. Nothing is
+    ever dropped, so no notification is lost.
+
+    The previous implementation always rebuilt the table by copying from
+    ``notifications``, which on a fresh deployment failed at import time with
+    ``sqlite3.OperationalError: no such table: notifications``.
+    """
     conn = get_conn()
-    conn.execute("BEGIN IMMEDIATE")
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS notifications_new (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            hr_id INTEGER NULL,
-            applicant_id TEXT NULL,
-            application_id INTEGER NULL,
-            type TEXT NOT NULL,
-            title TEXT NOT NULL,
-            message TEXT NOT NULL,
-            is_read INTEGER DEFAULT 0,
-            created_at TEXT NOT NULL
-        )
-    """)
-    cols = [r[1] for r in conn.execute("PRAGMA table_info(notifications)")]
-    if "applicant_id" not in cols:
-        conn.execute("""
-            INSERT INTO notifications_new (id, hr_id, application_id, type, title, message, is_read, created_at)
-            SELECT id, hr_id, application_id, type, title, message, is_read, created_at
-            FROM notifications
-        """)
-        conn.execute("DROP TABLE notifications")
-        conn.execute("ALTER TABLE notifications_new RENAME TO notifications")
-    else:
-        conn.execute("DROP TABLE IF EXISTS notifications_new")
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_notifications_hr_created ON notifications(hr_id, created_at DESC)")
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_notifications_applicant_created ON notifications(applicant_id, created_at DESC)")
+    try:
+        conn.execute("BEGIN IMMEDIATE")
+        conn.execute(_NOTIFICATIONS_TABLE_SQL)
+        ensure_columns(conn, "notifications", _NOTIFICATIONS_COLUMNS)
+        conn.execute(_NOTIFICATIONS_HR_INDEX_SQL)
+        conn.execute(_NOTIFICATIONS_APPLICANT_INDEX_SQL)
+    except Exception:
+        conn.rollback()
+        raise
     conn.commit()
     conn.close()
 
