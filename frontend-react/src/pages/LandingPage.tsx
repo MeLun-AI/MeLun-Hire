@@ -63,7 +63,7 @@ function SectionHeading({
     <Reveal className={center ? 'text-center' : ''}>
       <div className={`max-w-3xl ${center ? 'mx-auto' : ''}`}>
         <span className="qf-eyebrow">{eyebrow}</span>
-        <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-extrabold leading-[1.08] tracking-tight text-white">
+        <h2 className="mt-4 text-[clamp(1.75rem,5.4vw,3rem)] font-extrabold leading-[1.08] tracking-tight text-white">
           {title}
         </h2>
         {sub && <p className="mt-5 text-base sm:text-lg text-gray-400 leading-relaxed">{sub}</p>}
@@ -233,7 +233,7 @@ function TopNav() {
             </button>
             <button
               onClick={() => navigate('/signup')}
-              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-br from-primary to-primary-hover rounded-lg border border-primary-light/40 shadow-lg shadow-primary/25 hover:-translate-y-0.5 hover:shadow-primary/40 hover:brightness-105 transition-all"
+              className="hidden min-[360px]:inline-flex items-center gap-1.5 px-3.5 sm:px-5 py-2.5 text-[13px] sm:text-sm font-semibold text-white bg-gradient-to-br from-primary to-primary-hover rounded-lg border border-primary-light/40 shadow-lg shadow-primary/25 hover:-translate-y-0.5 hover:shadow-primary/40 hover:brightness-105 transition-all"
             >
               Get Started
               <ArrowIcon className="w-3.5 h-3.5" />
@@ -297,7 +297,7 @@ function HeroSection() {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center pt-28 pb-24 overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center pt-24 pb-16 sm:pt-28 sm:pb-24 overflow-hidden">
       {/* Layered atmospheric background — decorative only.
           Clean full-bleed photograph: no overlays, masks, glows, grid,
           grain, particles or scrims over the photo. */}
@@ -398,11 +398,11 @@ function HeroSection() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid lg:grid-cols-2 gap-14 lg:gap-10 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 items-center">
           {/* LEFT — headline (shifted further left on large screens) */}
           <div className="text-center lg:text-left lg:-ml-10 xl:-ml-16">
             <Reveal>
-              <div className="inline-flex items-center gap-2.5 bg-white/5 border border-white/10 rounded-full pl-2 pr-4 py-1.5 mb-8">
+              <div className="inline-flex max-w-full items-center gap-2.5 bg-white/5 border border-white/10 rounded-full pl-2 pr-4 py-1.5 mb-8">
                 <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-primary/20 text-primary-light text-[11px] font-semibold">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary-light animate-pulse" />
                   AI
@@ -412,11 +412,11 @@ function HeroSection() {
             </Reveal>
 
             <Reveal delay={0.05}>
-              <h1 className="tracking-tight text-white">
-                <span className="block text-[2.6rem] font-extrabold leading-[1.05] tracking-tight sm:text-[3.4rem] lg:text-[4.6rem]">
+              <h1 className="tracking-tight text-white [text-shadow:0_2px_18px_rgba(0,0,0,0.55)]">
+                <span className="block text-[clamp(2rem,8vw,4.6rem)] font-extrabold leading-[1.05] tracking-tight">
                   MeLun Hire.
                 </span>
-                <span className="mt-2 block text-[1.75rem] font-semibold leading-[1.05] tracking-tight text-gray-200 sm:text-[2rem] lg:text-[3.2rem]">
+                <span className="mt-2 block text-[clamp(1.45rem,5.2vw,3.2rem)] font-semibold leading-[1.05] tracking-tight text-gray-200">
                   <span className="block">Where Smart</span>
                   <span className="block">Hiring <span className="qf-grad-text">Begins.</span></span>
                 </span>
@@ -512,17 +512,17 @@ function TrustStrip() {
 /* ────────────────────────────────────────────────────────────────── */
 function IntroSection() {
   return (
-    <section id="intro" className="relative py-28 overflow-hidden">
+    <section id="intro" className="relative py-16 sm:py-24 lg:py-28 overflow-hidden">
       <Glow className="top-[10%] right-[-8%] w-[600px] h-[600px]" color="rgba(139,92,246,0.16)" />
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-14 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* LEFT — big typography */}
           <div>
             <Reveal>
               <span className="qf-eyebrow">The whole candidate</span>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2 className="mt-5 text-4xl sm:text-5xl lg:text-[3.6rem] leading-[1.06] font-extrabold tracking-tight text-white">
+              <h2 className="mt-5 text-[clamp(2rem,6vw,3.6rem)] leading-[1.06] font-extrabold tracking-tight text-white">
                 AI hiring built around the{' '}
                 <span className="qf-grad-text">whole candidate.</span>
               </h2>
@@ -586,14 +586,14 @@ function EvaluationSection() {
   const [open, setOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
   return (
-    <section id="evaluation" className="relative py-28 overflow-hidden">
+    <section id="evaluation" className="relative py-16 sm:py-24 lg:py-28 overflow-hidden">
       {/* dark charcoal + subtle blue/violet ambient */}
       <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-[#090b16] to-navy-950" />
       <Glow className="top-[20%] left-[-8%] w-[560px] h-[560px]" color="rgba(99,102,241,0.16)" />
       <Glow className="bottom-[10%] right-[-10%] w-[520px] h-[520px]" color="rgba(139,92,246,0.14)" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-14 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* LEFT — mock evaluation interface */}
           <Reveal className="flex items-center justify-center">
             <div className="relative mx-auto max-w-[540px]">
@@ -731,7 +731,7 @@ function EvaluationSection() {
               <span className="qf-eyebrow">AI evaluation</span>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.1] text-white">
+              <h2 className="mt-4 text-[clamp(1.75rem,5.4vw,3rem)] font-extrabold tracking-tight leading-[1.1] text-white">
                 Evaluate candidates on their{' '}
                 <span className="qf-grad-text">real fit,</span> not just keywords.
               </h2>
@@ -768,17 +768,17 @@ function EvaluationSection() {
 /* ────────────────────────────────────────────────────────────────── */
 function AboutSection() {
   return (
-    <section id="about" className="relative py-28 overflow-hidden">
+    <section id="about" className="relative py-16 sm:py-24 lg:py-28 overflow-hidden">
       <Glow className="top-[15%] left-[30%] w-[700px] h-[600px]" color="rgba(124,58,237,0.16)" />
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-14 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* LEFT — About text */}
           <div className="order-2 lg:order-1">
             <Reveal>
               <span className="qf-eyebrow">About MeLun Hire</span>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.1] text-white">
+              <h2 className="mt-4 text-[clamp(1.75rem,5.4vw,3rem)] font-extrabold tracking-tight leading-[1.1] text-white">
                 Hiring should understand the{' '}
                 <span className="qf-grad-text">whole candidate.</span>
               </h2>
@@ -850,7 +850,7 @@ function AboutSection() {
 /* ────────────────────────────────────────────────────────────────── */
 function InterviewSection() {
   return (
-    <section id="interview" className="relative py-28 overflow-hidden">
+    <section id="interview" className="relative py-16 sm:py-24 lg:py-28 overflow-hidden">
       {/* near-black with subtle warm/neutral glow */}
       <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-[#0a0908] to-navy-950" />
       <Glow className="top-[-10%] left-1/2 -translate-x-1/2 w-[760px] h-[560px]" color="rgba(217,171,163,0.12)" />
@@ -864,7 +864,7 @@ function InterviewSection() {
         />
 
         <Reveal delay={0.1}>
-          <div className="relative mt-16 mx-auto max-w-3xl">
+          <div className="relative mt-10 sm:mt-16 mx-auto max-w-3xl">
             <Glow className="inset-0 m-auto w-[680px] h-[380px]" color="rgba(139,92,246,0.14)" />
 
             <MockWindow title="MeLun AI Interview" badge="Preview">
@@ -925,21 +925,21 @@ function HrSection() {
     { name: 'Aisha Khan', role: 'Data Scientist', match: '86', initials: 'AK', status: 'Shortlisted', insight: 'Strong modeling & analytics' },
   ];
   return (
-    <section id="employers" className="relative py-28 overflow-hidden">
+    <section id="employers" className="relative py-16 sm:py-24 lg:py-28 overflow-hidden">
       {/* dark slate + cool atmospheric gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-[#0b0f18] to-navy-950" />
       <Glow className="top-[10%] right-[-8%] w-[620px] h-[560px]" color="rgba(56,116,203,0.15)" />
       <Glow className="bottom-[10%] left-[-8%] w-[520px] h-[520px]" color="rgba(99,102,241,0.12)" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-14 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* LEFT — text */}
           <div>
             <Reveal>
               <span className="qf-eyebrow">For employers</span>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.1] text-white">
+              <h2 className="mt-4 text-[clamp(1.75rem,5.4vw,3rem)] font-extrabold tracking-tight leading-[1.1] text-white">
                 Run hiring from one{' '}
                 <span className="qf-grad-text">clear command center.</span>
               </h2>
@@ -1120,14 +1120,14 @@ function ApplicantSection() {
     { title: 'AI Research Intern', tag: 'On-site', match: '82%', desc: 'Relevant academic and project experience, with more to show through evaluation.' },
   ];
   return (
-    <section id="applicants" className="relative py-28 overflow-hidden">
+    <section id="applicants" className="relative py-16 sm:py-24 lg:py-28 overflow-hidden">
       {/* dark charcoal + subtle purple/indigo atmosphere */}
       <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-[#0d0a17] to-navy-950" />
       <Glow className="top-[15%] left-[-8%] w-[620px] h-[560px]" color="rgba(139,92,246,0.14)" />
       <Glow className="bottom-[10%] right-[-8%] w-[520px] h-[520px]" color="rgba(124,58,237,0.12)" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-14 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* LEFT — mock job discovery */}
           <Reveal className="flex items-center justify-center">
             <div className="relative mx-auto max-w-[540px]">
@@ -1172,7 +1172,7 @@ function ApplicantSection() {
               <span className="qf-eyebrow">For applicants</span>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.1] text-white">
+              <h2 className="mt-4 text-[clamp(1.75rem,5.4vw,3rem)] font-extrabold tracking-tight leading-[1.1] text-white">
                 Discover roles that see your{' '}
                 <span className="qf-grad-text">real potential.</span>
               </h2>
@@ -1238,7 +1238,7 @@ function HowItWorksSection() {
   ];
 
   return (
-    <section id="how-it-works" className="relative py-28 overflow-hidden">
+    <section id="how-it-works" className="relative py-16 sm:py-24 lg:py-28 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-[#090b16] to-navy-950" />
       <Glow className="top-[20%] left-1/2 -translate-x-1/2 w-[720px] h-[500px]" color="rgba(124,58,237,0.14)" />
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1248,13 +1248,13 @@ function HowItWorksSection() {
           sub="A connected journey with AI support at every stage — no disjointed tools, no lost context."
         />
 
-        <div className="relative mt-16">
+        <div className="relative mt-10 sm:mt-16">
           {/* glowing connector (desktop horizontal) */}
           <div className="hidden lg:block absolute top-[4.2rem] left-[10%] right-[10%] h-0.5 -translate-y-1/2">
             <div className="h-full bg-gradient-to-r from-transparent via-primary/50 to-transparent" style={{ boxShadow: '0 0 18px rgba(139,92,246,0.5)' }} />
           </div>
           {/* glowing connector (mobile vertical) */}
-          <div className="lg:hidden absolute top-2 bottom-2 left-[2.1rem] w-0.5 bg-gradient-to-b from-primary/0 via-primary/40 to-primary/0" style={{ boxShadow: '0 0 14px rgba(139,92,246,0.4)' }} />
+          <div className="lg:hidden absolute top-2 bottom-2 left-8 w-0.5 bg-gradient-to-b from-primary/0 via-primary/40 to-primary/0" style={{ boxShadow: '0 0 14px rgba(139,92,246,0.4)' }} />
 
           <div className="grid lg:grid-cols-4 gap-10 lg:gap-6">
             {steps.map((s, i) => (
@@ -1317,7 +1317,7 @@ function WhySection() {
   ];
 
   return (
-    <section id="why" className="relative py-28 overflow-hidden">
+    <section id="why" className="relative py-16 sm:py-24 lg:py-28 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-[#0a0813] to-navy-950" />
 
       {/* abstract AI network behind */}
@@ -1387,14 +1387,14 @@ function WhySection() {
         </Reveal>
 
         {/* 3 cards on top + 2 centered cards underneath */}
-        <div className="mt-16">
+        <div className="mt-10 sm:mt-16">
           {/* TOP ROW — 3 cards */}
           <div className="grid md:grid-cols-3 gap-5">
             {items
               .filter((it) => it.layout === 'top')
               .map((it, i) => (
                 <Reveal key={`${it.big}-${it.word}`} delay={i * 0.08}>
-                  <div className="qf-glass rounded-2xl p-7 h-full min-h-[190px] transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-2xl hover:shadow-black/40">
+                  <div className="qf-glass rounded-2xl p-6 sm:p-7 h-full min-h-[190px] transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-2xl hover:shadow-black/40">
                     <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-[1.05]">
                       {it.big}{' '}
                       <span className="qf-grad-text block sm:inline">
@@ -1416,7 +1416,7 @@ function WhySection() {
               .filter((it) => it.layout === 'bottom')
               .map((it, i) => (
                 <Reveal key={`${it.big}-${it.word}`} delay={0.24 + i * 0.08}>
-                  <div className="qf-glass rounded-2xl p-7 h-full min-h-[190px] w-full md:w-auto md:flex-1 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-2xl hover:shadow-black/40">
+                  <div className="qf-glass rounded-2xl p-6 sm:p-7 h-full min-h-[190px] w-full md:w-auto md:flex-1 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-2xl hover:shadow-black/40">
                     <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-[1.05]">
                       {it.big}{' '}
                       <span className="qf-grad-text block sm:inline">
@@ -1476,7 +1476,7 @@ function SocialProofSection() {
   ];
 
   return (
-    <section className="relative py-28 overflow-hidden">
+    <section className="relative py-16 sm:py-24 lg:py-28 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-[#0a0c16] to-navy-950" />
       <Glow className="top-[10%] right-[0%] w-[560px] h-[560px]" color="rgba(99,102,241,0.12)" />
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1486,7 +1486,7 @@ function SocialProofSection() {
           sub="MeLun Hire evaluates candidates against real role requirements and helps both companies and applicants make better-fit decisions."
         />
 
-        <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="mt-10 sm:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {tiles.map((t, i) => (
             <Reveal key={t.title} delay={(i % 3) * 0.08}>
               <div className="qf-glass rounded-2xl p-6 h-full transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-2xl hover:shadow-black/40">
@@ -1511,7 +1511,7 @@ function SocialProofSection() {
 function FinalCta() {
   const navigate = useNavigate();
   return (
-    <section className="relative py-32 overflow-hidden">
+    <section className="relative py-20 sm:py-28 lg:py-32 overflow-hidden">
       {/* deep black with strong soft central glow */}
       <div className="absolute inset-0 bg-[#05060a]">
         <Glow className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[840px] h-[600px]" color="rgba(124,58,237,0.28)" />
@@ -1535,7 +1535,7 @@ function FinalCta() {
           <span className="qf-eyebrow">Get started</span>
         </Reveal>
         <Reveal delay={0.05}>
-          <h2 className="mt-6 text-4xl sm:text-6xl font-extrabold tracking-tight leading-[1.05] text-white">
+          <h2 className="mt-6 text-[clamp(2rem,7vw,3.75rem)] font-extrabold tracking-tight leading-[1.05] text-white">
             Build a better way <span className="qf-grad-text">to hire.</span>
           </h2>
         </Reveal>
