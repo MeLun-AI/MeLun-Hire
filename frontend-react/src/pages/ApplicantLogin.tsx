@@ -26,13 +26,14 @@ export default function ApplicantLogin() {
       // what is actually displayed, so prefer it when state is empty.
       // The email is trimmed + lowercased to match the backend's
       // normalisation (signup/login compare `email.strip().lower()`); the
-      // password is used verbatim so hashing always verifies.
+      // password is NFC-normalised (mirroring backend normalize_password) so
+      // visually-identical passwords from different keyboards verify.
       const form = e.currentTarget as HTMLFormElement;
       const formData = new FormData(form);
       const domEmail = String(formData.get('email') ?? '').trim();
       const domPassword = String(formData.get('password') ?? '');
       const finalEmail = (domEmail || email.trim()).toLowerCase();
-      const finalPassword = domPassword || password;
+      const finalPassword = (domPassword || password).normalize('NFC');
       const payload = { email: finalEmail, password: finalPassword };
       const data = (await postJson('/applicant/login', payload)) as Record<string, unknown>;
       // The session token is delivered as an HttpOnly cookie; it is never

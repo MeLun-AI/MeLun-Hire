@@ -46,11 +46,29 @@ export default function ApplicantSignup() {
 
     setLoading(true);
     try {
+      // Device-portable signup payload: read the live DOM values so mobile
+      // autofill/keyboard fills that bypass React onChange are still captured,
+      // and NFC-normalise the password so visually-identical passwords typed
+      // on different keyboards hash to the same bytes (mirrors the backend's
+      // normalize_password). Email is trimmed + lowercased to match the
+      // backend's email normalisation on both signup and login.
+      const form = e.currentTarget as HTMLFormElement;
+      const formData = new FormData(form);
+      const domPassword = String(formData.get('password') ?? '');
+      const domConfirm = String(formData.get('confirmPassword') ?? '');
+      const finalPassword = (domPassword || password).normalize('NFC');
+      const finalConfirm = (domConfirm || confirmPassword).normalize('NFC');
+      if (finalPassword !== finalConfirm) {
+        setError('Passwords do not match.');
+        setLoading(false);
+        return;
+      }
+      const domEmail = String(formData.get('email') ?? '').trim();
       await postJson('/applicant/signup', {
         full_name: fullName.trim(),
-        email: email.trim(),
+        email: (domEmail || email.trim()).toLowerCase(),
         phone: phone.trim(),
-        password,
+        password: finalPassword,
         location: location.trim(),
         experience_years: experienceYears ? parseInt(experienceYears, 10) : 0,
         skills: skills.trim(),
@@ -104,6 +122,8 @@ export default function ApplicantSignup() {
             <InputField
               label="Email"
               type="email"
+              name="email"
+              autoComplete="email"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -112,6 +132,8 @@ export default function ApplicantSignup() {
             <InputField
               label="Phone Number"
               type="tel"
+              name="phone"
+              autoComplete="tel"
               placeholder="+1 555 123 4567"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -119,6 +141,8 @@ export default function ApplicantSignup() {
             />
             <PasswordInput
               label="Password"
+              name="password"
+              autoComplete="new-password"
               placeholder="Create a password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -126,6 +150,8 @@ export default function ApplicantSignup() {
             />
             <PasswordInput
               label="Confirm Password"
+              name="confirmPassword"
+              autoComplete="new-password"
               placeholder="Re-enter your password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
