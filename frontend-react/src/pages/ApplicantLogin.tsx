@@ -19,9 +19,21 @@ export default function ApplicantLogin() {
     setError('');
     setLoading(true);
     try {
-      // Send exactly the backend schema: { email, password }. Trim the email so
-      // stray whitespace can never cause a backend validation (422) failure.
-      const payload = { email: email.trim(), password };
+      // Read live DOM values as a fallback for browser autofill. Android
+      // Chrome (and password managers) can fill the *DOM inputs* without
+      // firing React onChange, leaving `email`/`password` state stale or
+      // empty while the user sees filled fields. FormData always reflects
+      // what is actually displayed, so prefer it when state is empty.
+      // The email is trimmed + lowercased to match the backend's
+      // normalisation (signup/login compare `email.strip().lower()`); the
+      // password is used verbatim so hashing always verifies.
+      const form = e.currentTarget as HTMLFormElement;
+      const formData = new FormData(form);
+      const domEmail = String(formData.get('email') ?? '').trim();
+      const domPassword = String(formData.get('password') ?? '');
+      const finalEmail = (domEmail || email.trim()).toLowerCase();
+      const finalPassword = domPassword || password;
+      const payload = { email: finalEmail, password: finalPassword };
       const data = (await postJson('/applicant/login', payload)) as Record<string, unknown>;
       // The session token is delivered as an HttpOnly cookie; it is never
       // persisted in browser storage. Only the non-sensitive identity is kept.
@@ -79,6 +91,8 @@ export default function ApplicantLogin() {
             <InputField
               label="Email"
               type="email"
+              name="email"
+              autoComplete="email"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -87,6 +101,8 @@ export default function ApplicantLogin() {
 
             <PasswordInput
               label="Password"
+              name="password"
+              autoComplete="current-password"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

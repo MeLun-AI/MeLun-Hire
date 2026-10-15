@@ -19,7 +19,17 @@ export default function HrLogin() {
     setError('');
     setLoading(true);
     try {
-      const data = (await postJson('/hr/login', { email, password })) as Record<string, unknown>;
+      // Same Android-Chrome autofill guard as the applicant login: read the
+      // live DOM values so password-manager fills that bypass React onChange
+      // are still submitted. Email is trimmed + lowercased to match the
+      // backend normalisation; password is verbatim.
+      const form = e.currentTarget as HTMLFormElement;
+      const formData = new FormData(form);
+      const domEmail = String(formData.get('email') ?? '').trim();
+      const domPassword = String(formData.get('password') ?? '');
+      const finalEmail = (domEmail || email.trim()).toLowerCase();
+      const finalPassword = domPassword || password;
+      const data = (await postJson('/hr/login', { email: finalEmail, password: finalPassword })) as Record<string, unknown>;
       // The session token is delivered as an HttpOnly cookie; it is never
       // persisted in browser storage. Only the non-sensitive identity is kept.
       const session = { ...data };
@@ -65,6 +75,8 @@ export default function HrLogin() {
             <InputField
               label="Email"
               type="email"
+              name="email"
+              autoComplete="email"
               placeholder="hr@company.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -73,6 +85,8 @@ export default function HrLogin() {
 
             <PasswordInput
               label="Password"
+              name="password"
+              autoComplete="current-password"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

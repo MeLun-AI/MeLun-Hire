@@ -5,7 +5,7 @@ interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-export default function PasswordInput({ label, error, id, ...rest }: PasswordInputProps) {
+export default function PasswordInput({ label, error, id, autoComplete, autoCapitalize, autoCorrect, spellCheck, name, ...rest }: PasswordInputProps) {
   const [show, setShow] = useState(false);
   const inputId = id || label.toLowerCase().replace(/\s+/g, '-');
 
@@ -18,6 +18,15 @@ export default function PasswordInput({ label, error, id, ...rest }: PasswordInp
         <input
           id={inputId}
           type={show ? 'text' : 'password'}
+          name={name}
+          // Password fields must never be auto-capitalised or autocorrected,
+          // especially by mobile keyboards / password managers. The
+          // `current-password` hint lets Android Chrome fill the *DOM value*,
+          // which the login form reads back as a fallback (see ApplicantLogin).
+          autoComplete={autoComplete ?? 'current-password'}
+          autoCapitalize={autoCapitalize ?? 'none'}
+          autoCorrect={autoCorrect ?? 'off'}
+          spellCheck={spellCheck ?? false}
           className={`w-full bg-white/10 border ${error ? 'border-red-500' : 'border-white/10'} rounded-xl px-4 py-2.5 pr-11 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-coral-500/50 transition`}
           {...rest}
         />
