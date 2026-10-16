@@ -18,11 +18,11 @@ function HeroSection({ hrName }: { hrName: string }) {
       variants={staggerContainer}
       initial="hidden"
       animate="visible"
-      className="bg-gradient-to-br from-primary/10 via-navy-800/50 to-navy-900 border border-white/10 rounded-2xl p-6 md:p-8"
+      className="bg-gradient-to-br from-primary/10 via-navy-800/50 to-navy-900 border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8 min-w-0"
     >
-      <div className="flex flex-col md:flex-row md:items-center gap-6">
-        <div className="flex-1">
-          <motion.h1 variants={staggerItem} className="text-2xl md:text-3xl font-extrabold text-white">
+      <div className="flex flex-col md:flex-row md:items-center gap-4 sm:gap-6 min-w-0">
+        <div className="flex-1 min-w-0">
+          <motion.h1 variants={staggerItem} className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white break-words">
             {greeting}, {hrName}
           </motion.h1>
           <motion.p variants={staggerItem} className="text-gray-400 mt-2 text-sm md:text-base">

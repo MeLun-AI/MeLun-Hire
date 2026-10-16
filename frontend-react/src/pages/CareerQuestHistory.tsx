@@ -71,7 +71,7 @@ export default function CareerQuestHistory() {
   const retry = () => setLoading(true);
 return (
     <ApplicantLayout activePage="career-quest-history">
-      <div className="max-w-7xl mx-auto px-6 py-4 md:py-6 space-y-6">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-4 md:py-6 space-y-5 sm:space-y-6 min-w-0 w-full">
         <motion.section variants={staggerContainer} initial="hidden" animate="visible" className="p-4">
           <div className="flex items-center gap-2 mb-2">
             <AppIcon name="document" className="w-4 h-4 text-primary-light" />
@@ -98,7 +98,8 @@ return (
             <button onClick={() => navigate('/applicant/career-quest')} className="mt-4 text-xs bg-primary hover:bg-primary-hover text-white font-semibold py-2.5 px-5 rounded-xl transition-all btn-lift">Back to Career Quest</button>
           </motion.div>
         ) : (
-          <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="bg-white/5 border border-white/10 rounded-2xl overflow-x-auto">
+          <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden min-w-0">
+            <div className="responsive-table-scroll">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-white/5 text-gray-500 text-xs uppercase tracking-wider">
@@ -125,6 +126,7 @@ return (
                 ))}
               </tbody>
             </table>
+            </div>
             {attempts.length >= 2 && (
               <div className="px-5 py-4">
                 <p className="text-xs text-gray-500">

@@ -65,20 +65,20 @@ export function TalentArenaPage({
 }) {
   const navigate = useNavigate();
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6 space-y-5">
+    <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 md:py-6 space-y-5 min-w-0 w-full">
       {/* Every individual experience links back to the Talent Arena catalog. */}
       <button
         type="button"
         onClick={() => navigate('/hr/talent-arena')}
-        className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-400 hover:text-primary-light bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl px-3.5 py-2 transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-400 hover:text-primary-light bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl px-3.5 py-2 transition-colors max-w-full"
         aria-label="Back to Talent Arena"
       >
-        <span aria-hidden="true">←</span> Back to Talent Arena
+        <span aria-hidden="true">←</span> <span className="truncate">Back to Talent Arena</span>
       </button>
-      <header>
+      <header className="min-w-0">
         <p className="text-[11px] uppercase tracking-widest text-primary-light font-semibold">Talent Arena</p>
-        <h1 className="text-xl md:text-2xl font-extrabold text-white mt-1">{title}</h1>
-        <p className="text-sm text-gray-400 mt-1">{subtitle}</p>
+        <h1 className="text-lg sm:text-xl md:text-2xl font-extrabold text-white mt-1 break-words">{title}</h1>
+        <p className="text-sm text-gray-400 mt-1 break-words">{subtitle}</p>
       </header>
       {children}
     </div>

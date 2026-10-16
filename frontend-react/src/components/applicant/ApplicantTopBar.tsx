@@ -57,10 +57,13 @@ export default function ApplicantTopBar({
   applicantName,
   applicantId,
   onLogout,
+  onOpenMobileNav,
 }: {
   applicantName: string;
   applicantId: string;
   onLogout: () => void;
+  /** Opens the mobile nav drawer (below `md`). Desktop keeps its sidebar rail. */
+  onOpenMobileNav?: () => void;
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -119,30 +122,41 @@ export default function ApplicantTopBar({
   return (
     <>
       <header className="sticky top-0 z-30 bg-navy-950/80 backdrop-blur-md border-b border-white/5">
-      <div className="flex items-center justify-between px-6 py-3">
-        {/* Left side: Logo + Title + Breadcrumb */}
-        <div className="flex items-center gap-4 min-w-0">
+      <div className="flex items-center justify-between gap-2 px-3 sm:px-6 py-3 min-w-0">
+        {/* Left side: Hamburger (mobile) + Logo + Title + Breadcrumb */}
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+          {/* Mobile hamburger — opens the overlay drawer; hidden on md+ where
+              the desktop sidebar rail lives. */}
+          <button
+            onClick={onOpenMobileNav}
+            aria-label="Open navigation"
+            className="md:hidden inline-flex items-center justify-center w-10 h-10 -ml-1 rounded-xl text-gray-200 hover:text-white hover:bg-white/10 border border-white/10 transition-colors shrink-0"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
           {/* Logo — the shared MeLun lockup. The bar keeps its dark surface in
               both themes (bg-navy-950/80), so the dark-background variant is used. */}
-          <div className="shrink-0">
+          <div className="shrink-0 hidden min-[400px]:block">
             <MeLunLogo size={28} variant="onDark" />
           </div>
 
           <div className="h-6 w-px bg-white/10 hidden sm:block" />
 
           {/* Title + Breadcrumb */}
-          <div className="min-w-0">
-            <h1 className="text-base md:text-lg font-bold text-white truncate">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-[15px] sm:text-base md:text-lg font-bold text-white truncate">
               {routeConfig.title}
             </h1>
-            <p className="text-[11px] text-gray-500 truncate">
+            <p className="text-[11px] text-gray-500 truncate hidden min-[420px]:block">
               {routeConfig.breadcrumb}
             </p>
           </div>
         </div>
 
         {/* Right side: Date + Notifications (placeholder) + Profile */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           {/* Date */}
           <span className="text-[11px] text-gray-500 hidden md:block">{todayStr}</span>
 

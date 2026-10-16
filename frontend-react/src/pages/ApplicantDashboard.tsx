@@ -475,7 +475,7 @@ export default function ApplicantDashboard() {
 
   return (
     <ApplicantLayout activePage="dashboard">
-      <div className="max-w-7xl mx-auto px-6 py-4 md:py-6 space-y-6">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-4 md:py-6 space-y-5 sm:space-y-6 min-w-0 w-full">
         {/* ============================================================ */}
         {/* SECTION 1: WELCOME HERO                                      */}
         {/* ============================================================ */}
@@ -483,11 +483,11 @@ export default function ApplicantDashboard() {
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="bg-gradient-to-br from-primary/10 via-navy-800/50 to-navy-900 border border-white/10 rounded-2xl p-6 md:p-8"
+          className="bg-gradient-to-br from-primary/10 via-navy-800/50 to-navy-900 border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8 min-w-0"
         >
-          <div className="flex flex-col md:flex-row md:items-center gap-6">
-            <div className="flex-1">
-              <motion.h1 variants={staggerItem} className="text-2xl md:text-3xl font-extrabold text-white">
+          <div className="flex flex-col md:flex-row md:items-center gap-4 sm:gap-6 min-w-0">
+            <div className="flex-1 min-w-0">
+              <motion.h1 variants={staggerItem} className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white break-words">
                 {greeting}, {full_name.split(' ')[0]}
               </motion.h1>
               <motion.p variants={staggerItem} className="text-gray-400 mt-2 text-sm md:text-base">
@@ -872,11 +872,11 @@ export default function ApplicantDashboard() {
                 <motion.div
                   key={interview.applicationId}
                   variants={staggerItem}
-                  className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/[0.07] transition-all"
+                  className="flex flex-col gap-3 p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/[0.07] transition-all sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-white">{interview.jobTitle}</p>
-                    <p className="text-xs text-gray-400 mt-0.5">{interview.company}</p>
+                    <p className="text-sm font-semibold text-white break-words">{interview.jobTitle}</p>
+                    <p className="text-xs text-gray-400 mt-0.5 break-words">{interview.company}</p>
                     <div className="flex flex-wrap items-center gap-3 mt-2 text-[11px] text-gray-500">
                       <span className="flex items-center gap-1"><AppIcon name="clipboard" className="w-3.5 h-3.5" /> {interview.statusLabel}</span>
                       {interview.interviewExpiresAt && (
@@ -893,7 +893,7 @@ export default function ApplicantDashboard() {
                         jobTitle: interview.jobTitle,
                       },
                     })}
-                    className="shrink-0 text-xs bg-primary hover:bg-primary-hover text-white font-semibold py-2 px-4 rounded-xl transition-all btn-lift"
+                    className="self-stretch sm:self-auto shrink-0 text-xs bg-primary hover:bg-primary-hover text-white font-semibold py-2 px-4 rounded-xl transition-all btn-lift"
                   >
                     Start Interview
                   </button>
@@ -935,7 +935,7 @@ export default function ApplicantDashboard() {
                 </button>
               </div>
             ) : (
-              <div className="overflow-x-auto">
+              <div className="responsive-table-scroll rounded-b-2xl">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-white/5 text-gray-500 text-xs uppercase tracking-wider">

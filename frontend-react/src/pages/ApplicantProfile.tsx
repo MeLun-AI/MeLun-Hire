@@ -552,7 +552,7 @@ export default function ApplicantProfile() {
 
   return (
     <ApplicantLayout activePage="profile">
-      <div className="max-w-7xl mx-auto px-6 py-4 md:py-6 space-y-6">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-4 md:py-6 space-y-5 sm:space-y-6 min-w-0 w-full">
         {/* ============================================================ */}
         {/* SECTION 1: PAGE HEADER                                       */}
         {/* ============================================================ */}
@@ -620,11 +620,11 @@ export default function ApplicantProfile() {
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="bg-gradient-to-br from-primary/10 via-navy-800/50 to-navy-900 border border-white/10 rounded-2xl p-6 md:p-8"
+          className="bg-gradient-to-br from-primary/10 via-navy-800/50 to-navy-900 border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8 min-w-0"
         >
-          <div className="flex flex-col md:flex-row items-start gap-6">
+          <div className="flex flex-col md:flex-row items-stretch md:items-start gap-5 sm:gap-6 min-w-0">
             {/* Left: Avatar + Photo Buttons */}
-            <motion.div variants={staggerItem} className="flex flex-col items-center gap-3 shrink-0">
+            <motion.div variants={staggerItem} className="flex flex-row md:flex-col items-center gap-3 shrink-0">
               <ProfileAvatar name={profile.fullName} hasPhoto={hasPhoto} imageUrl={profilePic} size={80} />
               {editing && (
                 <div className="flex flex-col items-center gap-1.5">

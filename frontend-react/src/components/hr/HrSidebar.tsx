@@ -37,6 +37,9 @@ interface HrSidebarProps {
   collapsed: boolean;
   onToggle: () => void;
   onLogout: () => void;
+  /** Mobile drawer control (below `md`). Overlays content; desktop untouched. */
+  mobileOpen?: boolean;
+  onCloseMobile?: () => void;
 }
 
 /* ------------------------------------------------------------------ */
@@ -203,6 +206,8 @@ export default function HrSidebar({
   collapsed,
   onToggle,
   onLogout,
+  mobileOpen = false,
+  onCloseMobile,
 }: HrSidebarProps) {
   const navigate = useNavigate();
   const SIDEBAR_EXPANDED = 280;
@@ -231,15 +236,27 @@ export default function HrSidebar({
 
   const handleNav = (route: string | null) => {
     if (route) navigate(route);
+    // Drawer behaviour: navigating from the mobile drawer closes it.
+    onCloseMobile?.();
   };
+
+  /* Lock body scroll while the mobile drawer is open. */
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [mobileOpen]);
 
   return (
     <>
-      {/* Mobile overlay */}
-      {!collapsed && (
+      {/* Mobile overlay — drawer only; the desktop rail never uses this. */}
+      {mobileOpen && (
         <motion.div
           className="fixed inset-0 bg-black/60 z-30 md:hidden"
-          onClick={onToggle}
+          onClick={onCloseMobile}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -247,8 +264,9 @@ export default function HrSidebar({
         />
       )}
 
+      {/* ============ DESKTOP sidebar (md+) — unchanged behaviour ============ */}
       <motion.aside
-        className="fixed md:sticky top-0 left-0 z-40 h-screen bg-navy-900 border-r border-white/5 flex flex-col overflow-hidden"
+        className="hidden md:flex sticky top-0 left-0 z-40 h-screen bg-navy-900 border-r border-white/5 flex-col overflow-hidden"
         style={{
           width: collapsed ? SIDEBAR_COLLAPSED : SIDEBAR_EXPANDED,
         }}
@@ -389,6 +407,72 @@ export default function HrSidebar({
                 {!collapsed && <span className="text-[13px]">Logout</span>}
               </motion.button>
             </div>
+          </div>
+        </div>
+      </motion.aside>
+
+      {/* ============ MOBILE drawer (below md) — overlays, never squeezes ============
+          Same nav items as desktop, full labels, scrollable, closes on select. */}
+      <motion.aside
+        className="fixed top-0 left-0 z-40 h-[100dvh] w-[86vw] max-w-[320px] bg-navy-900 border-r border-white/10 overflow-hidden md:hidden shadow-2xl shadow-black/50 flex flex-col"
+        style={{ display: mobileOpen ? 'flex' : 'none' }}
+        initial={{ x: '-105%' }}
+        animate={{ x: mobileOpen ? '0%' : '-105%' }}
+        transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        aria-hidden={!mobileOpen}
+      >
+        <div className="pt-4 px-4 shrink-0 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <CompanyLogoMark companyName={companyName} size={32} />
+            <div className="min-w-0">
+              <div className="text-sm font-bold text-white truncate">{companyName}</div>
+              <div className="text-[9px] text-gray-500 tracking-tight">Powered by MeLun</div>
+            </div>
+          </div>
+          <button
+            onClick={onCloseMobile}
+            aria-label="Close navigation"
+            className="inline-flex items-center justify-center w-9 h-9 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 border border-white/10 transition-colors shrink-0"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div className="px-4 pt-4 shrink-0">
+          <div className="flex items-center gap-3">
+            <ProfileAvatar name={hrName} size={42} />
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold text-white truncate">{hrName}</p>
+              <p className="text-[11px] text-gray-500">HR Manager</p>
+            </div>
+          </div>
+        </div>
+        <div className="mx-4 mt-4 border-t border-white/5 shrink-0" />
+        <div className="flex-1 overflow-y-auto px-3 py-4 min-h-0">
+          <p className="px-2 mb-2 text-[10px] text-gray-600 uppercase tracking-[0.12em] font-semibold">Workspace</p>
+          <div className="space-y-0.5">
+            {workspaceNav.map((item) => (
+              <NavButton key={item.label} item={item} isActive={item.page === activePage} collapsed={false}
+                onClick={(e) => { e.stopPropagation(); handleNav(item.route); }} />
+            ))}
+          </div>
+          <p className="px-2 mt-5 mb-2 text-[10px] text-gray-600 uppercase tracking-[0.12em] font-semibold">Account</p>
+          <div className="space-y-0.5">
+            {accountNav.map((item) => (
+              <NavButton key={item.label} item={item} isActive={item.page === activePage} collapsed={false}
+                onClick={(e) => { e.stopPropagation(); handleNav(item.route); }} />
+            ))}
+            <motion.button
+              onClick={(e) => { e.stopPropagation(); onLogout(); }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-500 hover:text-red-400 hover:bg-red-500/[0.07]"
+            >
+              <span className="shrink-0 leading-none"><LogoutIcon className="w-5 h-5" /></span>
+              <span className="text-[13px]">Logout</span>
+            </motion.button>
           </div>
         </div>
       </motion.aside>

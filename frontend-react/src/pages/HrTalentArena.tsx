@@ -134,11 +134,11 @@ export default function HrTalentArena() {
 
   return (
     <HrLayout activePage="talent-arena">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6 space-y-6">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 md:py-6 space-y-6 min-w-0 w-full">
         {/* Header */}
-        <header>
+        <header className="min-w-0">
           <p className="text-[11px] uppercase tracking-widest text-primary-light font-semibold">Talent Arena</p>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white mt-1">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white mt-1 break-words">
             Discover → Investigate → Evaluate → Decide
           </h1>
           <p className="text-sm md:text-base text-gray-400 mt-2">

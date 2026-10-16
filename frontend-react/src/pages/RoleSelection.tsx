@@ -67,7 +67,7 @@ export default function RoleSelection({ mode = 'login' }: RoleSelectionProps) {
         </div>
 
         {/* Heading */}
-        <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 text-center tracking-tight">
+        <h1 className="text-[1.75rem] leading-tight sm:text-4xl md:text-5xl font-extrabold text-white mb-2 text-center tracking-tight px-2">
           {isSignup ? 'Create your account' : 'Choose Your Role'}
         </h1>
         <p className="text-gray-500 text-sm mb-12 text-center max-w-md">

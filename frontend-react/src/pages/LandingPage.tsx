@@ -138,7 +138,7 @@ function Glow({
   return (
     <div
       aria-hidden="true"
-      className={`absolute rounded-full pointer-events-none blur-[110px] ${className}`}
+      className={`absolute rounded-full pointer-events-none blur-[110px] max-w-full ${className}`}
       style={{ background: `radial-gradient(circle, ${color} 0%, transparent 70%)` }}
     />
   );
@@ -223,17 +223,18 @@ function TopNav() {
             ))}
           </div>
 
-          {/* Right CTAs */}
+          {/* Right CTAs — mobile shows an icon-only hamburger; Log in / Get
+              Started live inside the dropdown below (desktop unchanged). */}
           <div className="flex items-center gap-2.5">
             <button
               onClick={() => navigate('/login')}
-              className="hidden sm:inline-flex px-4 py-2 text-sm font-semibold text-white bg-white/10 border border-white/20 rounded-lg hover:bg-white/15 hover:border-white/30 transition-all [text-shadow:0_1px_3px_rgba(0,0,0,0.6)]"
+              className="hidden lg:inline-flex px-4 py-2 text-sm font-semibold text-white bg-white/10 border border-white/20 rounded-lg hover:bg-white/15 hover:border-white/30 transition-all [text-shadow:0_1px_3px_rgba(0,0,0,0.6)]"
             >
               Log in
             </button>
             <button
               onClick={() => navigate('/signup')}
-              className="hidden min-[360px]:inline-flex items-center gap-1.5 px-3.5 sm:px-5 py-2.5 text-[13px] sm:text-sm font-semibold text-white bg-gradient-to-br from-primary to-primary-hover rounded-lg border border-primary-light/40 shadow-lg shadow-primary/25 hover:-translate-y-0.5 hover:shadow-primary/40 hover:brightness-105 transition-all"
+              className="hidden lg:inline-flex items-center gap-1.5 px-3.5 sm:px-5 py-2.5 text-[13px] sm:text-sm font-semibold text-white bg-gradient-to-br from-primary to-primary-hover rounded-lg border border-primary-light/40 shadow-lg shadow-primary/25 hover:-translate-y-0.5 hover:shadow-primary/40 hover:brightness-105 transition-all"
             >
               Get Started
               <ArrowIcon className="w-3.5 h-3.5" />
@@ -298,9 +299,9 @@ function HeroSection() {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center pt-24 pb-16 sm:pt-28 sm:pb-24 overflow-hidden">
-      {/* Layered atmospheric background — decorative only.
-          Clean full-bleed photograph: no overlays, masks, glows, grid,
-          grain, particles or scrims over the photo. */}
+      {/* Layered atmospheric background — decorative only. On phones the
+          full-bleed photo sits behind a dimming scrim (see landing.css) so
+          copy stays legible even where the photo is bright. */}
       <div className="absolute inset-0 overflow-hidden bg-[#07080d]" aria-hidden="true">
         {/* 1. base wash (flat dark fallback behind the photo) */}
         <div className="absolute inset-0 qf-hero-base" />
@@ -314,6 +315,8 @@ function HeroSection() {
             decoding="async"
             className="qf-hero-photo-img"
           />
+          {/* Mobile legibility scrim — CSS-only, mobile breakpoints only. */}
+          <div className="qf-hero-photo-scrim" aria-hidden="true" />
         </div>
 
         {/* ── Floating UI tabs (anchored to hero visual, above bg) ── */}
@@ -398,7 +401,7 @@ function HeroSection() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid lg:grid-cols-2 gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           {/* LEFT — headline (shifted further left on large screens) */}
           <div className="text-center lg:text-left lg:-ml-10 xl:-ml-16">
             <Reveal>
@@ -424,7 +427,7 @@ function HeroSection() {
             </Reveal>
 
             <Reveal delay={0.12}>
-              <p className="mt-6 text-base sm:text-lg font-medium text-gray-100 leading-relaxed max-w-lg mx-auto lg:mx-0 [text-shadow:0_1px_3px_rgba(0,0,0,0.6)]">
+              <p className="mt-6 text-[15px] sm:text-lg font-medium text-gray-100 leading-relaxed max-w-full sm:max-w-lg mx-auto lg:mx-0 [text-shadow:0_1px_3px_rgba(0,0,0,0.6)]">
                 MeLun Hire connects role requirements, candidate skills, experience,
                 and AI-powered interviews to create a more complete picture of
                 candidate–role fit.
@@ -432,7 +435,7 @@ function HeroSection() {
             </Reveal>
 
             <Reveal delay={0.2}>
-              <div className="mt-9 flex flex-col sm:flex-row gap-3.5 justify-center lg:justify-start">
+              <div className="mt-7 sm:mt-9 flex flex-col gap-3 sm:gap-3.5 justify-center lg:justify-start w-full max-w-full sm:max-w-md mx-auto lg:mx-0">
                 <button
                   onClick={() => navigate('/signup')}
                   className="qf-btn-primary"
@@ -450,7 +453,7 @@ function HeroSection() {
             </Reveal>
 
             <Reveal delay={0.28}>
-              <div className="mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-xs font-medium text-gray-100 [text-shadow:0_1px_3px_rgba(0,0,0,0.6)]">
+              <div className="mt-8 sm:mt-10 flex flex-col min-[420px]:flex-row min-[420px]:flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-xs font-medium text-gray-100 [text-shadow:0_1px_3px_rgba(0,0,0,0.6)]">
                 {['Role-aware evaluation', 'Structured AI interviews', 'Candidate reports'].map((t) => (
                   <span key={t} className="inline-flex items-center gap-1.5">
                     <svg className="w-3.5 h-3.5 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -515,7 +518,7 @@ function IntroSection() {
     <section id="intro" className="relative py-16 sm:py-24 lg:py-28 overflow-hidden">
       <Glow className="top-[10%] right-[-8%] w-[600px] h-[600px]" color="rgba(139,92,246,0.16)" />
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* LEFT — big typography */}
           <div>
             <Reveal>
@@ -556,8 +559,8 @@ function IntroSection() {
 
 
           {/* RIGHT — product visual with floating connection cards */}
-          <Reveal delay={0.1} className="flex items-center justify-center">
-            <div className="relative mx-auto max-w-[520px]">
+          <Reveal delay={0.1} className="flex items-center justify-center min-w-0">
+            <div className="relative mx-auto max-w-[520px] min-w-0">
               <Glow className="inset-0 m-auto w-[460px] h-[460px]" color="rgba(124,58,237,0.2)" />
 
               {/* product / platform visual */}
@@ -593,10 +596,10 @@ function EvaluationSection() {
       <Glow className="bottom-[10%] right-[-10%] w-[520px] h-[520px]" color="rgba(139,92,246,0.14)" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* LEFT — mock evaluation interface */}
-          <Reveal className="flex items-center justify-center">
-            <div className="relative mx-auto max-w-[540px]">
+          <Reveal className="flex items-center justify-center min-w-0">
+            <div className="relative mx-auto max-w-[540px] min-w-0">
               <Glow className="inset-0 m-auto w-[460px] h-[400px]" color="rgba(99,102,241,0.16)" />
 
               {/* preview — image cover ⇄ full mock, expanding in place */}
@@ -744,7 +747,7 @@ function EvaluationSection() {
               </p>
             </Reveal>
             <Reveal delay={0.2}>
-              <div className="mt-8 grid sm:grid-cols-2 gap-3">
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {['Experience evaluated against the role', 'Relevant technical skills identified', 'Role alignment surfaced, not keyword hits', 'Strong evidence highlighted for recruiters'].map((t) => (
                   <div key={t} className="flex items-start gap-2.5 qf-glass rounded-xl px-3.5 py-3">
                     <svg className="w-4 h-4 text-primary-light shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -770,10 +773,10 @@ function AboutSection() {
   return (
     <section id="about" className="relative py-16 sm:py-24 lg:py-28 overflow-hidden">
       <Glow className="top-[15%] left-[30%] w-[700px] h-[600px]" color="rgba(124,58,237,0.16)" />
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-w-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-14 items-center min-w-0">
           {/* LEFT — About text */}
-          <div className="order-2 lg:order-1">
+          <div className="order-2 lg:order-1 min-w-0">
             <Reveal>
               <span className="qf-eyebrow">About MeLun Hire</span>
             </Reveal>
@@ -807,8 +810,8 @@ function AboutSection() {
           </div>
 
           {/* RIGHT — mock matching visualization */}
-          <Reveal delay={0.1}>
-            <div className="relative order-1 lg:order-2 mx-auto max-w-[520px]">
+          <Reveal delay={0.1} className="min-w-0">
+            <div className="relative order-1 lg:order-2 mx-auto max-w-[520px] min-w-0">
               <Glow className="inset-0 m-auto w-[480px] h-[440px]" color="rgba(124,58,237,0.2)" />
 
               {/* connecting vertical flow line */}
@@ -932,7 +935,7 @@ function HrSection() {
       <Glow className="bottom-[10%] left-[-8%] w-[520px] h-[520px]" color="rgba(99,102,241,0.12)" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* LEFT — text */}
           <div>
             <Reveal>
@@ -967,8 +970,8 @@ function HrSection() {
           </div>
 
           {/* RIGHT — mock HR dashboard */}
-          <Reveal delay={0.1} className="flex items-center justify-center">
-            <div className="relative mx-auto max-w-[540px]">
+          <Reveal delay={0.1} className="flex items-center justify-center min-w-0">
+            <div className="relative mx-auto max-w-[540px] min-w-0">
               <Glow className="inset-0 m-auto w-[480px] h-[420px]" color="rgba(56,116,203,0.18)" />
 
               {/* preview — employer image ⇄ full dashboard mock, expanding in place */}
@@ -1127,10 +1130,10 @@ function ApplicantSection() {
       <Glow className="bottom-[10%] right-[-8%] w-[520px] h-[520px]" color="rgba(124,58,237,0.12)" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* LEFT — mock job discovery */}
-          <Reveal className="flex items-center justify-center">
-            <div className="relative mx-auto max-w-[540px]">
+          <Reveal className="flex items-center justify-center min-w-0">
+            <div className="relative mx-auto max-w-[540px] min-w-0">
               <Glow className="inset-0 m-auto w-[480px] h-[420px]" color="rgba(139,92,246,0.16)" />
               <MockWindow title="Discover Roles" badge="Applicant view">
                 {/* candidate visual banner */}
@@ -1256,7 +1259,7 @@ function HowItWorksSection() {
           {/* glowing connector (mobile vertical) */}
           <div className="lg:hidden absolute top-2 bottom-2 left-8 w-0.5 bg-gradient-to-b from-primary/0 via-primary/40 to-primary/0" style={{ boxShadow: '0 0 14px rgba(139,92,246,0.4)' }} />
 
-          <div className="grid lg:grid-cols-4 gap-10 lg:gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 lg:gap-6">
             {steps.map((s, i) => (
               <Reveal key={s.n} delay={i * 0.08}>
                 <div className="relative flex lg:flex-col items-start lg:items-center text-left lg:text-center">
@@ -1389,7 +1392,7 @@ function WhySection() {
         {/* 3 cards on top + 2 centered cards underneath */}
         <div className="mt-10 sm:mt-16">
           {/* TOP ROW — 3 cards */}
-          <div className="grid md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {items
               .filter((it) => it.layout === 'top')
               .map((it, i) => (
@@ -1486,7 +1489,7 @@ function SocialProofSection() {
           sub="MeLun Hire evaluates candidates against real role requirements and helps both companies and applicants make better-fit decisions."
         />
 
-        <div className="mt-10 sm:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="mt-10 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {tiles.map((t, i) => (
             <Reveal key={t.title} delay={(i % 3) * 0.08}>
               <div className="qf-glass rounded-2xl p-6 h-full transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-2xl hover:shadow-black/40">

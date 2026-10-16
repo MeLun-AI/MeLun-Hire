@@ -48,7 +48,8 @@ export default function HrLayout({
 }) {
   const navigate = useNavigate();
   const [session, setSession] = useState<HrSession | null>(null);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const { theme } = useTheme();
 
@@ -84,6 +85,9 @@ export default function HrLayout({
   };
 
   const handleMainClick = () => {
+    if (mobileNavOpen) {
+      setMobileNavOpen(false);
+    }
     if (!sidebarCollapsed) {
       setSidebarCollapsed(true);
     }
@@ -100,37 +104,27 @@ export default function HrLayout({
           theme === 'light' ? 'theme-light' : ''
         }`}
       >
-        {/* Sidebar */}
+        {/* Sidebar — desktop rail/drawer; mobile overlay drawer (see HrSidebar) */}
         <HrSidebar
           hrName={hr_name}
           companyName={company_name}
           activePage={activePage}
           collapsed={sidebarCollapsed}
+          mobileOpen={mobileNavOpen}
+          onCloseMobile={() => setMobileNavOpen(false)}
           onToggle={() => setSidebarCollapsed((v) => !v)}
           onLogout={handleLogout}
         />
 
-        {/* Mobile hamburger */}
-        {sidebarCollapsed && (
-          <button
-            onClick={() => setSidebarCollapsed(false)}
-            className="fixed top-4 left-4 z-20 md:hidden bg-navy-800 border border-white/10 rounded-xl p-2 text-white shadow-lg"
-            aria-label="Open sidebar"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        )}
-
         {/* Main content area */}
-        <div className={`flex-1 min-w-0 flex flex-col ${fixedShell ? 'min-h-0 h-full overflow-hidden' : 'min-h-screen'}`}>
-          {/* Top Bar */}
+        <div className={`flex-1 min-w-0 w-full flex flex-col ${fixedShell ? 'min-h-0 h-full overflow-hidden' : 'min-h-screen'}`}>
+          {/* Top Bar — owns the mobile hamburger so it never overlaps content */}
           <HrTopBar
             hrName={hr_name}
             companyName={company_name}
             hrId={hr_id}
             onLogout={handleLogout}
+            onOpenMobileNav={() => setMobileNavOpen(true)}
           />
 
           {/* Page content with animated transitions */}

@@ -11,6 +11,7 @@ import {
   getRoleOption,
 } from '../services/jobTemplates';
 import HrSidebar from '../components/hr/HrSidebar';
+import HrTopBar from '../components/hr/HrTopBar';
 import { BulkActionButton, BulkSelectBar, RowCheckbox } from '../components/hr/BulkSelectBar';
 
 /* ------------------------------------------------------------------ */
@@ -137,7 +138,8 @@ export default function HrJobPosts() {
   const navigate = useNavigate();
 
   const [session, setSession] = useState<HrSession | null>(null);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const [jobs, setJobs] = useState<JobPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -235,6 +237,7 @@ export default function HrJobPosts() {
   };
 
   const handleMainClick = () => {
+    if (mobileNavOpen) setMobileNavOpen(false);
     if (!sidebarCollapsed) setSidebarCollapsed(true);
   };
 
@@ -411,35 +414,32 @@ export default function HrJobPosts() {
 
   return (
     <div className="min-h-screen bg-navy-950 flex">
-      {/* Sidebar */}
+      {/* Sidebar — desktop rail/drawer; mobile overlay drawer */}
       <HrSidebar
         hrName={hr_name}
         companyName={company_name}
         activePage="job-posts"
         collapsed={sidebarCollapsed}
+        mobileOpen={mobileNavOpen}
+        onCloseMobile={() => setMobileNavOpen(false)}
         onToggle={() => setSidebarCollapsed((v) => !v)}
         onLogout={handleLogout}
       />
 
-      {/* Mobile hamburger */}
-      {sidebarCollapsed && (
-        <button
-          onClick={() => setSidebarCollapsed(false)}
-          className="fixed top-4 left-4 z-20 md:hidden bg-navy-800 border border-white/10 rounded-xl p-2 text-white shadow-lg"
-          aria-label="Open sidebar"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      )}
-
       {/* Main content */}
+      <div className="flex-1 min-w-0 w-full flex flex-col min-h-screen">
+        <HrTopBar
+          hrName={hr_name}
+          companyName={company_name}
+          hrId={session?.hr_id ?? 0}
+          onLogout={handleLogout}
+          onOpenMobileNav={() => setMobileNavOpen(true)}
+        />
       <main
-        className="flex-1 min-w-0 min-h-screen overflow-y-auto"
+        className="flex-1 min-w-0 overflow-y-auto"
         onClick={handleMainClick}
       >
-        <div className="max-w-7xl mx-auto px-6 py-6 md:py-10">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 md:py-10 min-w-0 w-full">
           {/* Success toast */}
           {successMsg && (
             <div className="mb-6 p-3 bg-green-500/10 border border-green-500/30 rounded-2xl text-green-300 text-sm">
@@ -944,6 +944,7 @@ export default function HrJobPosts() {
           </section>
         </div>
       </main>
+      </div>
 
       {/* Close confirm dialog */}
       {closeTarget && (

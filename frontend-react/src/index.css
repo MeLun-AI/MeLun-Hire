@@ -3,6 +3,16 @@
 @tailwind utilities;
 
 @layer base {
+  /* Responsive guard: the page itself never scrolls sideways. Inner tables
+     that genuinely need width keep their own contained scroller (see the
+     .responsive-table-scroll utility below). */
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+  /* Only as a last resort for stray transformed/fixed decor: clip, but keep
+     vertical scrolling untouched. Individual sections fix their own widths. */
   body {
     @apply bg-navy-950 text-white font-sans antialiased;
     background-color: #06070c;
@@ -13,6 +23,24 @@
     background-attachment: fixed;
     min-height: 100vh;
     color-scheme: dark;
+  }
+
+  /* Media never forces the viewport wider. */
+  img,
+  video,
+  svg {
+    max-width: 100%;
+  }
+
+  /* Flex + grid children may shrink below their content (prevents a wide
+     card/table/text from forcing the whole page wider on phones). */
+  div,
+  section,
+  main,
+  header,
+  footer,
+  table {
+    min-width: 0;
   }
 
   * {
@@ -74,6 +102,24 @@
 
 /* ── Card hover: soft shadow + border transition ─────────────────── */
 @layer utilities {
+  /* ── Responsive helpers shared by HR + applicant pages ───────────────
+     .responsive-table-scroll: contained horizontal scroll for data tables
+     that genuinely need width — the page itself never scrolls sideways. */
+  .responsive-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
+  .responsive-table-scroll table {
+    min-width: 560px;
+    width: 100%;
+  }
+  @media (max-width: 480px) {
+    .responsive-table-scroll table {
+      min-width: 520px;
+    }
+  }
+
   .card-hover {
     @apply transition-all duration-150 ease-out;
   }

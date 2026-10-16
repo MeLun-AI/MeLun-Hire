@@ -370,7 +370,7 @@ export default function HrDashboard() {
 
   return (
     <HrLayout activePage="dashboard">
-      <div className="max-w-7xl mx-auto px-6 py-4 md:py-6">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-4 md:py-6 min-w-0 w-full">
         {/* Welcome panel */}
         {!loading && !error && (
           <div className="mb-6">
@@ -523,22 +523,24 @@ export default function HrDashboard() {
                 <p className="text-gray-500 text-sm">No open positions yet.</p>
               </div>
             ) : (
+              <div className="responsive-table-scroll rounded-b-2xl">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-white/5 text-gray-500 text-xs uppercase tracking-wider">
-                    <th className="text-left px-5 py-2.5 font-medium">Job Title</th>
-                    <th className="text-right px-5 py-2.5 font-medium">Applicants</th>
+                    <th className="text-left px-4 sm:px-5 py-2.5 font-medium">Job Title</th>
+                    <th className="text-right px-4 sm:px-5 py-2.5 font-medium">Applicants</th>
                   </tr>
                 </thead>
                 <tbody>
                   {displayedJobs.map((job, i) => (
                     <tr key={i} className="border-b border-white/5 last:border-0 hover:bg-white/[0.03] transition-colors">
-                      <td className="px-5 py-3 text-white font-medium">{job.job_title}</td>
-                      <td className="px-5 py-3 text-right text-gray-400">{job.applicants}</td>
+                      <td className="px-4 sm:px-5 py-3 text-white font-medium break-words">{job.job_title}</td>
+                      <td className="px-4 sm:px-5 py-3 text-right text-gray-400">{job.applicants}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+              </div>
             )}
           </div>
         </section>

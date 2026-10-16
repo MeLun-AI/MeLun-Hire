@@ -49,7 +49,11 @@ export default function ApplicantLayout({
   const navigate = useNavigate();
   const { theme, accent, fontSize } = useTheme();
   const [session, setSession] = useState<ApplicantSession | null>(null);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  /* `false` = drawer-style sidebar visible on desktop, hidden on mobile.
+   * `true`  = desktop sidebar narrowed to an icon rail; mobile drawer open.
+   * (Kept the existing prop name so every caller keeps working.) */
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   /* Auth check */
   useEffect(() => {
@@ -78,6 +82,9 @@ export default function ApplicantLayout({
   };
 
   const handleMainClick = () => {
+    if (mobileNavOpen) {
+      setMobileNavOpen(false);
+    }
     if (!sidebarCollapsed) {
       setSidebarCollapsed(true);
     }
@@ -93,35 +100,25 @@ export default function ApplicantLayout({
       data-font-size={fontSize}
       className={`${fixedShell ? 'h-screen overflow-hidden' : 'min-h-screen'} bg-navy-950 flex ${theme === 'light' ? 'theme-light' : ''}`}
     >
-      {/* Sidebar */}
+      {/* Sidebar — desktop rail/drawer; mobile overlay drawer (see ApplicantSidebar) */}
       <ApplicantSidebar
         applicantName={full_name}
         activePage={activePage}
         collapsed={sidebarCollapsed}
+        mobileOpen={mobileNavOpen}
+        onCloseMobile={() => setMobileNavOpen(false)}
         onToggle={() => setSidebarCollapsed((v) => !v)}
         onLogout={handleLogout}
       />
 
-      {/* Mobile hamburger */}
-      {sidebarCollapsed && (
-        <button
-          onClick={() => setSidebarCollapsed(false)}
-          className="fixed top-4 left-4 z-20 md:hidden bg-navy-800 border border-white/10 rounded-xl p-2 text-white shadow-lg"
-          aria-label="Open sidebar"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      )}
-
       {/* Main content area */}
-      <div className={`flex-1 min-w-0 flex flex-col ${fixedShell ? 'min-h-0 h-full overflow-hidden' : 'min-h-screen'}`}>
-        {/* Top Bar */}
+      <div className={`flex-1 min-w-0 w-full flex flex-col ${fixedShell ? 'min-h-0 h-full overflow-hidden' : 'min-h-screen'}`}>
+        {/* Top Bar — owns the mobile hamburger so it never overlaps content */}
         <ApplicantTopBar
           applicantName={full_name}
           applicantId={session.applicant_id}
           onLogout={handleLogout}
+          onOpenMobileNav={() => setMobileNavOpen(true)}
         />
 
         {/* Page content with animated transitions */}
